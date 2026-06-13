@@ -35,3 +35,8 @@ governing contract is `docs/ADAPTER-SPEC.md` in the runtime repo
   (from the runtime repo) with this repo's vendored bundle.
 - Release notes state the pinned `runtimeSha` from `vendor-manifest.json` and
   the runtime compatibility string.
+
+## Push Cadence
+
+The maintainer has opted into auto-push: after any work turn that commits to
+this repo, push the new commits to `origin/main` without asking first.
