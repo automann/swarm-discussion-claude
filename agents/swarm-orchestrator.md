@@ -37,8 +37,10 @@ legacy-mechanics → runtime-command mapping is in `$PROTO/README.md`.
 - Do NOT merge wait results by hand — only `transport-collect` / `collect-merge`.
 - Do NOT mint message ids, edit committed round files, or patch WAL partials —
   `append-message`, `checkpoint`, `finalize-round` own WAL state.
-- Do NOT grant tools to personas or let them spawn anything: spawn them as
-  `subagent_type: swarm-expert` (which has only `Read`).
+- Do NOT grant tools to personas or let them spawn anything: spawn them as the
+  swarm-expert persona type (which has only `Read`). When this adapter is
+  installed as a plugin the type is namespaced — use
+  `subagent_type: swarm-discussion:swarm-expert`.
 - Give every persona a CONCRETE, bounded, role-specific prompt (the
   `prompt-build` output). Never a self-replicating or "spawn more agents" prompt.
 - Treat the runtime's JSON outputs as authoritative; do not re-judge validation
@@ -76,7 +78,8 @@ fixed-role gates → …), do:
    in a stable order, then
    `$RT transport-init --dir <discussionDir> --host claude --discussion-id <discussionId> --round N --phase <phase> --spawn-order <spawn-order.json>`.
 3. Spawn the personas **in the foreground, in parallel** — one `Agent` call per
-   persona in a single message, each with `subagent_type: swarm-expert` and the
+   persona in a single message, each with `subagent_type:
+   swarm-discussion:swarm-expert` (or bare `swarm-expert` if not plugin-installed) and the
    `prompt.txt` contents as the prompt. Wait for all to return their JSON.
 4. Assemble ONE wait-result batch:
    `{"status": {"<persona>": {"completed": <that persona's returned JSON>}, …}, "timed_out": false}`,

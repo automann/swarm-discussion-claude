@@ -37,6 +37,32 @@ bin/swarm_runtime_wrapper.py  runtime discovery + doctor + gate delegation (no m
 vendor/swarm-runtime/         vendored runtime bundle + vendor-manifest.json (read-only)
 ```
 
+## Install
+
+Develop / test locally — loads the plugin for one session; its agent types
+appear namespaced as `swarm-discussion:swarm-orchestrator` and
+`swarm-discussion:swarm-expert`, and the `swarm-discussion` skill registers:
+
+```bash
+claude --plugin-dir /path/to/swarm-discussion-claude
+# after editing plugin files in-session:
+/reload-plugins
+```
+
+Validate the manifest at any time:
+
+```bash
+claude plugin validate /path/to/swarm-discussion-claude
+```
+
+End users install through the `swarm-discussion` aggregator marketplace; this
+adapter repo intentionally ships no `marketplace.json` (distribution is the
+aggregator's responsibility per the runtime repo's `docs/ADAPTER-SPEC.md`).
+
+Verified 2026-06-11 on Claude Code 2.1.177: `claude plugin validate` passes,
+`--plugin-dir` registers both agent types and the skill, and the real
+`swarm-discussion:swarm-expert` type spawns and returns as a Read-only leaf.
+
 ## Pinned runtime
 
 The vendored runtime SHA and per-file hashes are recorded in
