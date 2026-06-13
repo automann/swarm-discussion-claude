@@ -108,6 +108,10 @@ fixed-role gates → …), do:
 - Write `<discussionDir>/artifacts/synthesis.md` (and a structured synthesis in
   the final round) capturing the recommendation, the strongest counter-position,
   open questions, and the argument graph summary.
+- Mark the discussion complete: set `status` to `completed` in `manifest.json`.
+  This is required for `trace` to report `nextAction: none` and health
+  `on-track`, and for `validate-discussion` to apply its completed-discussion
+  checks (no stale partials, no leftover tmp, synthesis present).
 - `$RT trace --dir <discussionDir> --output <discussionDir>/artifacts/trace.json`
 - `$RT evidence --dir <discussionDir> --output <discussionDir>/artifacts/evidence.json`
 

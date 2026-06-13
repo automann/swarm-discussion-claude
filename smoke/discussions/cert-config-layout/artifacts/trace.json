@@ -1,0 +1,226 @@
+{
+  "artifacts": {
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/synthesis.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/brief.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/context/summary.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/events.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/manifest.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/progress.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/declaration/architect/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/declaration/architect/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/declaration/architect/request.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/architect/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/architect/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/architect/request.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/contrarian/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/contrarian/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/contrarian/request.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001-declaration-spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001-response-spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001-response2-spawn-order.json"
+    ],
+    "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout"
+  },
+  "capabilities": {
+    "effective": {
+      "allowedTools": [],
+      "broadTools": [],
+      "canCiteToolDerivedEvidence": false,
+      "citationRule": "tool evidence must be logged, validated, and allowed by the active profile",
+      "default": true,
+      "id": "expert-basic",
+      "ordinaryExpert": true,
+      "readonlyTools": [],
+      "role": "ordinary-expert",
+      "toolEvidencePolicy": {
+        "requiresLoggedToolCall": true,
+        "requiresValidation": true
+      }
+    },
+    "errors": [],
+    "ok": true,
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/vendor/swarm-runtime/profiles/expert-basic.json"
+    ],
+    "profile": {
+      "allowedTools": [],
+      "broadTools": [],
+      "default": true,
+      "id": "expert-basic",
+      "ordinaryExpert": true,
+      "readonlyTools": [],
+      "role": "ordinary-expert",
+      "toolEvidencePolicy": {
+        "requiresLoggedToolCall": true,
+        "requiresValidation": true
+      }
+    },
+    "profilePath": "/Users/syfq/dev/harness/swarm-discussion-claude/vendor/swarm-runtime/profiles/expert-basic.json",
+    "source": "default",
+    "toolEvidence": {
+      "accepted": [],
+      "acceptedCount": 0,
+      "citable": false,
+      "errors": [],
+      "recordCount": 0
+    },
+    "toolEvidencePath": null
+  },
+  "discussion": {
+    "id": "cert-config-layout",
+    "mode": "lightweight",
+    "schemaVersion": 1,
+    "status": "completed",
+    "title": null
+  },
+  "discussionDir": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout",
+  "events": {
+    "count": 8,
+    "counts": {
+      "checkpoint_written": 4,
+      "message_appended": 3,
+      "round_finalized": 1
+    },
+    "errors": [],
+    "last": {
+      "data": {
+        "messageCount": 3,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json",
+        "round": 1
+      },
+      "seq": 8,
+      "ts": "2026-06-13T09:24:20Z",
+      "type": "round_finalized"
+    }
+  },
+  "health": "on-track",
+  "kind": "swarm.discussion_trace",
+  "nextAction": {
+    "command": null,
+    "kind": "none",
+    "reason": "discussion completed"
+  },
+  "ok": true,
+  "prompts": {
+    "count": 3,
+    "errors": [],
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/declaration/architect/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/architect/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/prompts/r001/response/contrarian/prompt-build.json"
+    ],
+    "personas": {
+      "architect": 2,
+      "contrarian": 1
+    },
+    "phases": {
+      "declaration": 1,
+      "response": 2
+    },
+    "promptBuildCount": 3,
+    "visibility": {
+      "full": 3
+    }
+  },
+  "quality": {
+    "qualityScore": 0.84,
+    "recommendation": "Use one hand-editable config file with a namespaced [commands.<name>] section per subcommand. The main trade-off is loader simplicity and a single source of truth (one parse, one precedence story, additive growth from 6 to 12 commands) versus the hand-editing/merge-review ergonomics of one growing file. Because one-to-many is a safe additive split later while many-to-one is the breaking direction (r1-msg-001), single-file is the lower-regret default under the 'no breaking changes' constraint.",
+    "synthesisPresent": true
+  },
+  "resume": {
+    "maxId": "r1-msg-003",
+    "messageCount": 3,
+    "nextAction": "start_next_round",
+    "nextMessageId": "r1-msg-004",
+    "ok": true,
+    "phase": "complete",
+    "round": 1,
+    "source": "final",
+    "statePath": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json"
+  },
+  "rounds": {
+    "finalCount": 1,
+    "partialCount": 0,
+    "rounds": [
+      {
+        "messageCount": 3,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json",
+        "round": 1,
+        "source": "final",
+        "validationOk": true
+      }
+    ]
+  },
+  "transport": {
+    "collectResultCount": 3,
+    "collectResults": [
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/collect-result.json",
+        "resultCount": 1,
+        "timedOut": false
+      },
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/collect-result.json",
+        "resultCount": 1,
+        "timedOut": false
+      },
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/collect-result.json",
+        "resultCount": 1,
+        "timedOut": false
+      }
+    ],
+    "complete": true,
+    "errors": [],
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/declaration/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001/response-2/collect-result.json"
+    ],
+    "spawnOrderCount": 3,
+    "waitBatchCount": 3
+  },
+  "validation": {
+    "errors": [],
+    "ok": true,
+    "summary": {
+      "discussionId": "cert-config-layout",
+      "roundCount": 1,
+      "status": "completed",
+      "validatedRounds": 1
+    },
+    "warnings": []
+  }
+}

@@ -1,0 +1,8 @@
+{"data": {"messageCount": 1, "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json.partial", "phase": "declaration", "round": 1}, "seq": 1, "ts": "2026-06-13T09:19:55Z", "type": "checkpoint_written"}
+{"data": {"from": "architect", "messageId": "r1-msg-001", "phase": "declaration", "round": 1}, "seq": 2, "ts": "2026-06-13T09:19:55Z", "type": "message_appended"}
+{"data": {"messageCount": 2, "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json.partial", "phase": "response", "round": 1}, "seq": 3, "ts": "2026-06-13T09:21:48Z", "type": "checkpoint_written"}
+{"data": {"from": "contrarian", "messageId": "r1-msg-002", "phase": "response", "round": 1}, "seq": 4, "ts": "2026-06-13T09:21:48Z", "type": "message_appended"}
+{"data": {"messageCount": 3, "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json.partial", "phase": "response-2", "round": 1}, "seq": 5, "ts": "2026-06-13T09:23:37Z", "type": "checkpoint_written"}
+{"data": {"from": "architect", "messageId": "r1-msg-003", "phase": "response-2", "round": 1}, "seq": 6, "ts": "2026-06-13T09:23:37Z", "type": "message_appended"}
+{"data": {"messageCount": 3, "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json.partial", "phase": "complete", "round": 1}, "seq": 7, "ts": "2026-06-13T09:24:20Z", "type": "checkpoint_written"}
+{"data": {"messageCount": 3, "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/rounds/001.json", "round": 1}, "seq": 8, "ts": "2026-06-13T09:24:20Z", "type": "round_finalized"}

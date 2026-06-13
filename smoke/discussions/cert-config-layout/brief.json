@@ -1,0 +1,10 @@
+{
+  "topic": "Config layout for a small CLI tool",
+  "objective": "Decide whether a small CLI tool should keep all configuration in one file or split it across per-command files.",
+  "mode": "lightweight",
+  "discussionId": "cert-config-layout",
+  "parentContext": "A single-binary CLI with ~6 subcommands is adding user configuration. The team is split between one config file and per-command files. The decision is needed before the config loader is written.",
+  "constraints": ["No breaking changes after release", "Config must be hand-editable", "Keep the loader simple"],
+  "knownFacts": ["~6 subcommands today", "expected to grow to ~12 within a year"],
+  "successCriteria": ["A clear recommendation naming the main trade-off", "The strongest objection to the chosen option"]
+}
