@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+# Transient discussion output created while running the skill in a workspace.
+# A retained certification discussion lives under smoke/, not here.
+.swarm/
