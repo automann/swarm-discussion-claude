@@ -49,15 +49,17 @@ legacy-mechanics → runtime-command mapping is in `$PROTO/README.md`.
 ## Flow
 
 ### 1. Initialize
-- The vendored runtime has no `init` command, so create the tree and a minimal
-  manifest directly:
-  `mkdir -p <discussionDir>/context <discussionDir>/rounds <discussionDir>/artifacts <discussionDir>/prompts <discussionDir>/transport`
-  and write `<discussionDir>/manifest.json` =
-  `{"schemaVersion": 1, "id": "<discussionId>", "mode": "<mode>", "status": "active"}`.
-  (When a re-vendored runtime provides `init`, prefer `$RT init`.)
+- Scaffold the discussion:
+  `$RT init --dir <discussionDir> --discussion-id <discussionId> --mode <mode>`
+  (creates the directory tree and `manifest.json` with status `active`). If it
+  reports `already_initialized`, reuse the existing directory.
 - Write the brief to `<discussionDir>/brief.json` (or use the provided
   `briefPath`), then
   `$RT context-build --brief <brief.json> --out <discussionDir>/context/summary.md`.
+
+Runtime commands print a compact summary by default (the keys you need: ids,
+counts, paths, health); the full payload lives in the artifact each command
+writes. Read that artifact (or pass `--full`) when you need the whole object.
 
 ### 2. Plan personas
 - Following `$PROTO/templates/persona-generator.md` and the brief, choose the
@@ -86,23 +88,21 @@ fixed-role gates → …), do:
    write it to a temp file, and
    `$RT transport-append-batch --dir <discussionDir> --round N --phase <phase> --wait-result <batch.json>`.
 5. `$RT transport-collect --dir <discussionDir> --round N --phase <phase>` →
-   merges into `collect-result.json`. If it reports missing agents, re-spawn the
-   missing personas and append another batch before proceeding.
-6. For each collected result, map it to a message payload
+   merges into `collect-result.json`. The compact summary reports `complete`,
+   `missingAgentIds`, and `resultCount`; read the full merged persona results
+   from `collect-result.json`. If agents are missing, re-spawn them and append
+   another batch before proceeding.
+6. For each merged result in `collect-result.json`, map it to a message payload
    (`{from, type, content, references}` per `$PROTO/SCHEMA.md`) and
    `$RT append-message --dir <discussionDir> --round N --phase <phase> --message <msg.json>`.
    `append-message` mints ids and checkpoints; never set ids yourself.
 
 ### 4. Finalize the round
-- Build the final round state and supply ALL of these (the vendored runtime
-  validates them exactly — it does not derive any): `roundId`, `topic`, `mode`,
-  `timestamp` (UTC ISO-8601, e.g. from `date -u +%Y-%m-%dT%H:%M:%SZ`),
-  `messages`, `argumentGraph`, `positionShifts`, `synthesis`, and `metadata` =
-  `{"messageCount": <len messages>, "referenceCount": <len argumentGraph>,
-  "participants": <sorted distinct senders>}`. Then
+- Build the final round state with `roundId`, `topic`, `mode`, `messages`,
+  `argumentGraph`, `positionShifts`, and `synthesis`. `finalize-round` derives
+  `metadata` and `timestamp`, so you may omit them; if you DO supply them they
+  are validated, not overwritten. Then
   `$RT finalize-round --dir <discussionDir> --round N --state <final.json>`.
-  (When a re-vendored runtime derives metadata, you may omit the derived
-  fields.)
 - Decide termination per the protocol (quality gate / max rounds / convergence).
   If continuing, start round N+1 (the runtime enforces sequential rounds:
   round N requires round N-1 finalized).

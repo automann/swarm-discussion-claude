@@ -134,6 +134,9 @@ def _prompt_summary(discussion_dir: Path) -> dict[str, Any]:
     visibility: Counter[str] = Counter()
     errors: list[dict[str, Any]] = []
     artifacts: list[str] = []
+    prompt_char_total = 0
+    prompt_char_max = 0
+    prompt_char_counted = 0
     for path in prompt_paths:
         payload, error = _load_json(path)
         artifacts.append(str(path))
@@ -149,12 +152,20 @@ def _prompt_summary(discussion_dir: Path) -> dict[str, Any]:
             personas[str(persona.get("id") or persona.get("name") or "unknown")] += 1
         for value in (payload.get("visibility") or {}).values():
             visibility[str(value)] += 1
+        char_count = payload.get("promptCharCount")
+        if isinstance(char_count, int) and not isinstance(char_count, bool):
+            prompt_char_total += char_count
+            prompt_char_max = max(prompt_char_max, char_count)
+            prompt_char_counted += 1
     return {
         "count": len(prompt_paths),
         "promptBuildCount": len(prompt_paths),
         "phases": dict(sorted(phases.items())),
         "personas": dict(sorted(personas.items())),
         "visibility": dict(sorted(visibility.items())),
+        "promptCharTotal": prompt_char_total,
+        "promptCharMax": prompt_char_max,
+        "promptCharCounted": prompt_char_counted,
         "errors": errors,
         "paths": artifacts,
     }
@@ -216,7 +227,29 @@ def _transport_summary(discussion_dir: Path) -> dict[str, Any]:
 def _events_summary(discussion_dir: Path) -> dict[str, Any]:
     events, errors = _load_jsonl(discussion_dir / "events.jsonl")
     counts = Counter(event.get("type", "unknown") for event in events)
-    return {"count": len(events), "counts": dict(sorted(counts.items())), "last": events[-1] if events else None, "errors": errors}
+    first_ts = last_ts = None
+    span_seconds: int | None = None
+    stamps = [event.get("ts") for event in events if isinstance(event, dict) and isinstance(event.get("ts"), str)]
+    if len(stamps) >= 2:
+        from datetime import datetime
+
+        try:
+            start = datetime.strptime(stamps[0], "%Y-%m-%dT%H:%M:%SZ")
+            end = datetime.strptime(stamps[-1], "%Y-%m-%dT%H:%M:%SZ")
+            first_ts, last_ts = stamps[0], stamps[-1]
+            span_seconds = int((end - start).total_seconds())
+        except (ValueError, TypeError):
+            first_ts = last_ts = None
+            span_seconds = None
+    return {
+        "count": len(events),
+        "counts": dict(sorted(counts.items())),
+        "last": events[-1] if events else None,
+        "firstTs": first_ts,
+        "lastTs": last_ts,
+        "spanSeconds": span_seconds,
+        "errors": errors,
+    }
 
 
 def _quality_summary(discussion_dir: Path) -> dict[str, Any]:
@@ -307,6 +340,16 @@ def _artifact_paths(discussion_dir: Path) -> list[str]:
         if path.is_file() and not any(part in ignored_parts for part in path.relative_to(discussion_dir).parts):
             paths.append(str(path))
     return paths
+
+
+def _artifact_total_bytes(discussion_dir: Path) -> int:
+    total = 0
+    for path_str in _artifact_paths(discussion_dir):
+        try:
+            total += Path(path_str).stat().st_size
+        except OSError:
+            continue
+    return total
 
 
 def _next_action(
@@ -470,7 +513,11 @@ def build_trace(discussion_dir: Path) -> dict[str, Any]:
         "capabilities": capabilities,
         "quality": quality,
         "events": events,
-        "artifacts": {"root": str(discussion_dir), "paths": _artifact_paths(discussion_dir)},
+        "artifacts": {
+            "root": str(discussion_dir),
+            "paths": _artifact_paths(discussion_dir),
+            "totalBytes": _artifact_total_bytes(discussion_dir),
+        },
         "nextAction": next_action,
     }
 
@@ -514,6 +561,10 @@ def _metrics(trace: dict[str, Any]) -> dict[str, Any]:
         "partialRoundCount": rounds.get("partialCount", 0),
         "eventCount": trace.get("events", {}).get("count", 0),
         "validationErrorCount": len(trace.get("validation", {}).get("errors", []) or []),
+        "promptCharTotal": trace.get("prompts", {}).get("promptCharTotal", 0),
+        "promptCharMax": trace.get("prompts", {}).get("promptCharMax", 0),
+        "artifactTotalBytes": trace.get("artifacts", {}).get("totalBytes", 0),
+        "eventSpanSeconds": trace.get("events", {}).get("spanSeconds"),
     }
 
 

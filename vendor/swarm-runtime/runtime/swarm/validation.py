@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from typing import Any
 
+from swarm._shared import MESSAGE_ID
+
 ALLOWED_RELATIONS = {"supports", "counters", "extends", "questions"}
-MESSAGE_ID = re.compile(r"^r(\d+)-msg-(\d{3,})$")
 COMPLETED_STATUSES = {"completed", "complete", "done"}
 
 

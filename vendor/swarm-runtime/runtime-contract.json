@@ -100,6 +100,14 @@
       "responsibilities": ["wal-resume-plan"],
       "produces": []
     },
+    "init": {
+      "owner": "runtime",
+      "stability": "contract",
+      "adapterFacing": true,
+      "mutatesState": true,
+      "responsibilities": ["discussion-scaffold"],
+      "produces": ["manifest.json", "events.jsonl"]
+    },
     "validate-round": {
       "owner": "runtime",
       "stability": "contract",
@@ -176,7 +184,8 @@
     "validate-host-step",
     "capability-doctor",
     "validate-loop",
-    "adapter-smoke"
+    "adapter-smoke",
+    "init"
   ],
   "integrationGates": [
     "validate-host-step",

@@ -9,9 +9,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from swarm._shared import MESSAGE_ID, fsync_dir as _fsync_dir
 from swarm.validation import ALLOWED_RELATIONS, validate_round_record
-
-MESSAGE_ID = re.compile(r"^r(\d+)-msg-(\d{3,})$")
 
 
 def _issue(code: str, path: str, message: str, value: Any = None) -> dict[str, Any]:
@@ -32,17 +31,6 @@ def _round_paths(discussion_dir: Path, round_id: int) -> dict[str, Path]:
         "progress": discussion_dir / "progress.md",
         "events": discussion_dir / "events.jsonl",
     }
-
-
-def _fsync_dir(path: Path) -> None:
-    try:
-        fd = os.open(path, os.O_RDONLY)
-        try:
-            os.fsync(fd)
-        finally:
-            os.close(fd)
-    except OSError:
-        pass
 
 
 def _read_json(path: Path) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
@@ -354,11 +342,89 @@ def append_message(
     }
 
 
+def init_discussion(
+    discussion_dir: Path, discussion_id: str, mode: str = "standard", title: str | None = None
+) -> dict[str, Any]:
+    """Scaffold a discussion directory and its manifest. Fail loud if it exists."""
+    if not isinstance(discussion_id, str) or not re.match(r"^[A-Za-z0-9][A-Za-z0-9_-]*\Z", discussion_id):
+        return {
+            "ok": False,
+            "errors": [
+                _issue("invalid_discussion_id", "discussionId", "must match ^[A-Za-z0-9][A-Za-z0-9_-]*$", discussion_id)
+            ],
+        }
+    manifest_path = discussion_dir / "manifest.json"
+    if manifest_path.exists():
+        return {
+            "ok": False,
+            "errors": [_issue("already_initialized", str(manifest_path), "discussion already initialized")],
+        }
+    for sub in ("context", "rounds", "artifacts"):
+        (discussion_dir / sub).mkdir(parents=True, exist_ok=True)
+    resolved_mode = mode if isinstance(mode, str) and mode.strip() else "standard"
+    manifest = {
+        "schemaVersion": 1,
+        "id": discussion_id,
+        "mode": resolved_mode,
+        "status": "active",
+        "createdAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    if isinstance(title, str) and title.strip():
+        manifest["title"] = title
+    tmp_path = manifest_path.with_name(f".manifest.json.{os.getpid()}.tmp")
+    with tmp_path.open("w") as handle:
+        json.dump(manifest, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(tmp_path, manifest_path)
+    _fsync_dir(discussion_dir)
+    event = append_event(discussion_dir, "discussion_initialized", {"discussionId": discussion_id, "mode": resolved_mode})
+    return {
+        "ok": True,
+        "errors": [],
+        "manifestPath": str(manifest_path),
+        "discussionId": discussion_id,
+        "mode": resolved_mode,
+        "nextHelperCommand": "swarm-rt context-build --brief <brief.json> --out context/summary.md",
+        "event": event,
+    }
+
+
+def _derive_round_metadata(final_state: dict[str, Any]) -> dict[str, Any]:
+    """Fill metadata/timestamp from messages when the caller omitted them.
+
+    Never overwrites caller-supplied values: if metadata or timestamp is
+    present it passes through unchanged so the validator still catches
+    inconsistent input (no silent repair).
+    """
+    if not isinstance(final_state, dict):
+        return final_state
+    derived = dict(final_state)
+    messages = derived.get("messages") or []
+    graph = derived.get("argumentGraph") or []
+    if isinstance(messages, list) and "metadata" not in derived:
+        derived["metadata"] = {
+            "messageCount": len(messages),
+            "referenceCount": len(graph) if isinstance(graph, list) else 0,
+            "participants": sorted(
+                {
+                    message.get("from")
+                    for message in messages
+                    if isinstance(message, dict) and isinstance(message.get("from"), str)
+                }
+            ),
+        }
+    derived.setdefault("timestamp", time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+    return derived
+
+
 def finalize_round(discussion_dir: Path, round_id: int, final_state: dict[str, Any]) -> dict[str, Any]:
     guard_errors = _round_guard(discussion_dir, round_id, final_state)
     if guard_errors:
         return {"ok": False, "errors": guard_errors}
 
+    final_state = _derive_round_metadata(final_state)
     validation = validate_round_record(final_state)
     if not validation["ok"]:
         return {"ok": False, "errors": validation["errors"], "warnings": validation["warnings"]}

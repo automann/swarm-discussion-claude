@@ -34,7 +34,13 @@
       "type": "object"
     },
     "metrics": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "promptCharTotal": { "type": "integer", "minimum": 0 },
+        "promptCharMax": { "type": "integer", "minimum": 0 },
+        "artifactTotalBytes": { "type": "integer", "minimum": 0 },
+        "eventSpanSeconds": { "type": ["integer", "null"] }
+      }
     },
     "validation": {
       "type": "object"

@@ -24,9 +24,11 @@ python3 <runtime-repo>/conformance/certify_adapter.py \
   --runtime   <this-repo>/vendor/swarm-runtime/runtime/swarm_rt.py
 ```
 
-Result on 2026-06-11 against vendored runtime `bed47da`: **CERTIFIED** — all
-five gates pass (`runtime-contract`, `vendor-manifest`, `adapter-smoke`,
-`validate-loop`, `validate-discussion`).
+Originally certified 2026-06-11 against runtime `bed47da`; **re-certified**
+2026-06-11 against runtime `ecd447b` (plans 001–006 landed) after re-vendoring
+and simplifying the orchestrator to use `init` + metadata derivation + compact
+output — **CERTIFIED**, all five gates pass (`runtime-contract`,
+`vendor-manifest`, `adapter-smoke`, `validate-loop`, `validate-discussion`).
 
 ### Notes / known v1 untidiness
 

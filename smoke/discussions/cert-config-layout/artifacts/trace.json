@@ -1,7 +1,9 @@
 {
   "artifacts": {
     "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/evidence.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/synthesis.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/trace.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/brief.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/context/summary.md",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/events.jsonl",
@@ -33,7 +35,8 @@
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001-response-spawn-order.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001-response2-spawn-order.json"
     ],
-    "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout"
+    "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout",
+    "totalBytes": 80222
   },
   "capabilities": {
     "effective": {
@@ -96,6 +99,7 @@
       "round_finalized": 1
     },
     "errors": [],
+    "firstTs": "2026-06-13T09:19:55Z",
     "last": {
       "data": {
         "messageCount": 3,
@@ -105,7 +109,9 @@
       "seq": 8,
       "ts": "2026-06-13T09:24:20Z",
       "type": "round_finalized"
-    }
+    },
+    "lastTs": "2026-06-13T09:24:20Z",
+    "spanSeconds": 265
   },
   "health": "on-track",
   "kind": "swarm.discussion_trace",
@@ -132,6 +138,9 @@
       "response": 2
     },
     "promptBuildCount": 3,
+    "promptCharCounted": 0,
+    "promptCharMax": 0,
+    "promptCharTotal": 0,
     "visibility": {
       "full": 3
     }

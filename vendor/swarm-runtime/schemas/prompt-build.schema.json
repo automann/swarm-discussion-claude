@@ -49,6 +49,14 @@
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
     },
+    "promptCharCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "contextSummaryCharCount": {
+      "type": "integer",
+      "minimum": 0
+    },
     "visibility": {
       "type": "object",
       "additionalProperties": {

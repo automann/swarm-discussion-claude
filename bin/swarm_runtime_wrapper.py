@@ -47,6 +47,7 @@ PRIMITIVE_COMMANDS = [
     "evidence",
     "validate-host-step",
     "capability-doctor",
+    "init",
 ]
 
 
@@ -183,7 +184,9 @@ def host_nesting() -> dict[str, Any]:
 def resolve_runtime(explicit: str | None) -> dict[str, Any]:
     attempts: list[dict[str, Any]] = []
     for candidate in runtime_candidates(explicit):
-        result = run(candidate["command"], [RUNTIME_CONTRACT])
+        # The runtime prints a compact summary by default; --full restores the
+        # contract object that contract_ok() inspects.
+        result = run(candidate["command"], [RUNTIME_CONTRACT, "--full"])
         payload = result["json"]
         attempts.append(
             {

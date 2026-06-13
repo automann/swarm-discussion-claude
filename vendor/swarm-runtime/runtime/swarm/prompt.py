@@ -382,6 +382,8 @@ def build_prompt(request: Any, base_dir: Path | None = None) -> dict[str, Any]:
         "persona": persona if isinstance(persona, dict) else {"id": phase, "name": phase},
         "prompt": prompt,
         "promptSha256": _sha256(prompt),
+        "promptCharCount": len(prompt),
+        "contextSummaryCharCount": len(context_summary),
         "visibility": visibility,
         "injectedIds": injected_ids,
         "inputs": {

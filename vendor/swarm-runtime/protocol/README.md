@@ -41,3 +41,4 @@ Adapters call the runtime commands; they never reimplement the left column.
 - `windowing.md` — visibility/windowing semantics (mechanics superseded).
 - `prompts.md` — phase prompt semantics consumed by `prompt-build`.
 - `templates/persona-generator.md` — persona generation template.
+- `templates/context-generator.md` — parent-brief authoring guide consumed by `context-build`.

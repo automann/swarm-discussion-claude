@@ -8,6 +8,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from swarm._shared import fsync_dir as _fsync_dir
 from swarm.adapter import ALLOWED_HOSTS, validate_host_transport_metadata
 from swarm.collect import collect_merge
 
@@ -25,17 +26,6 @@ def _issue(code: str, path: str, message: str, value: Any = None) -> dict[str, A
 
 def _phase_dir(discussion_dir: Path, round_id: int, phase: str) -> Path:
     return discussion_dir / "transport" / f"r{round_id:03d}" / phase
-
-
-def _fsync_dir(path: Path) -> None:
-    try:
-        fd = os.open(path, os.O_RDONLY)
-        try:
-            os.fsync(fd)
-        finally:
-            os.close(fd)
-    except OSError:
-        pass
 
 
 def _write_text_atomic(path: Path, text: str) -> None:

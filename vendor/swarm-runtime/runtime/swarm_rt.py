@@ -25,11 +25,31 @@ from swarm.prompt import build_prompt
 from swarm.smoke import adapter_smoke
 from swarm.transport import append_wait_batch, collect_transport_step, write_transport_step
 from swarm.validation import validate_discussion_dir, validate_round_file
-from swarm.wal import append_message, checkpoint, finalize_round, resume_plan
+from swarm.wal import append_message, checkpoint, finalize_round, init_discussion, resume_plan
 
 
 def emit(payload: dict[str, Any]) -> None:
     print(json.dumps(payload, indent=2, sort_keys=True))
+
+
+def emit_summary(result: dict[str, Any], summary: dict[str, Any], full: bool) -> None:
+    """Print a compact summary on success; the full result on failure or --full.
+
+    Full payloads still live in artifacts (--out/--output files, prompt-build.json,
+    collect-result.json). This keeps verbose JSON out of the orchestrator context
+    while preserving fail-loud behavior (errors are never truncated).
+    """
+    if full or not result.get("ok", False):
+        emit(result)
+    else:
+        emit(summary)
+
+
+def _visibility_counts(result: dict[str, Any]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for value in (result.get("visibility") or {}).values():
+        counts[str(value)] = counts.get(str(value), 0) + 1
+    return counts
 
 
 def cmd_health(_args: argparse.Namespace) -> int:
@@ -52,7 +72,9 @@ def cmd_planned_commands(_args: argparse.Namespace) -> int:
 def cmd_runtime_contract(args: argparse.Namespace) -> int:
     contract = load_runtime_contract(args.path)
     validation = validate_runtime_contract(contract)
-    emit({"ok": validation["ok"], "contract": contract, "validation": validation})
+    result = {"ok": validation["ok"], "contract": contract, "validation": validation}
+    summary = {"ok": validation["ok"], "validation": validation.get("summary", {})}
+    emit_summary(result, summary, args.full)
     return 0 if validation["ok"] else 1
 
 
@@ -113,7 +135,16 @@ def cmd_collect_merge(args: argparse.Namespace) -> int:
     for path in args.wait_result:
         wait_results.extend(load_wait_result_batches(path))
     result = collect_merge(spawn_order, wait_results)
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "complete": result.get("complete"),
+        "timedOut": result.get("timedOut"),
+        "missingAgentIds": result.get("missingAgentIds", []),
+        "receivedAgentIds": result.get("receivedAgentIds", []),
+        "resultCount": len(result.get("results", []) or []),
+        "errors": result.get("errors", []),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
@@ -123,7 +154,14 @@ def cmd_context_build(args: argparse.Namespace) -> int:
     if result["ok"] and args.out:
         write_text_atomic(args.out, result["summaryMarkdown"])
         result["summaryPath"] = str(args.out)
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "summarySha256": result.get("summarySha256"),
+        "summary": result.get("summary", {}),
+    }
+    if result.get("summaryPath"):
+        summary["summaryPath"] = result["summaryPath"]
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
@@ -139,25 +177,67 @@ def cmd_prompt_build(args: argparse.Namespace) -> int:
             "prompt": str(prompt_path),
             "promptBuild": str(artifact_path),
         }
-    emit(result)
+    persona = request.get("persona") if isinstance(request, dict) else None
+    summary = {
+        "ok": result["ok"],
+        "phase": request.get("phase") if isinstance(request, dict) else None,
+        "persona": persona.get("id") if isinstance(persona, dict) else None,
+        "promptSha256": result.get("promptSha256"),
+        "promptCharCount": len(result.get("prompt", "") or ""),
+        "visibilityCounts": _visibility_counts(result),
+    }
+    if result.get("artifactPaths"):
+        summary["artifactPaths"] = result["artifactPaths"]
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_append_message(args: argparse.Namespace) -> int:
     result = append_message(args.dir, args.round, args.phase, load_json(args.message))
-    emit(result)
+    message = result.get("message", {}) or {}
+    summary = {
+        "ok": result["ok"],
+        "messageId": message.get("id"),
+        "from": message.get("from"),
+        "checkpointPath": (result.get("checkpoint") or {}).get("path"),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_checkpoint(args: argparse.Namespace) -> int:
     result = checkpoint(args.dir, args.round, args.phase, load_json(args.state))
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "round": result.get("round"),
+        "phase": result.get("phase"),
+        "path": result.get("path"),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_finalize_round(args: argparse.Namespace) -> int:
     result = finalize_round(args.dir, args.round, load_json(args.state))
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "round": result.get("round"),
+        "path": result.get("path"),
+        "warnings": result.get("warnings", []),
+    }
+    emit_summary(result, summary, args.full)
+    return 0 if result["ok"] else 1
+
+
+def cmd_init(args: argparse.Namespace) -> int:
+    result = init_discussion(args.dir, args.discussion_id, mode=args.mode, title=args.title)
+    summary = {
+        "ok": result["ok"],
+        "manifestPath": result.get("manifestPath"),
+        "discussionId": result.get("discussionId"),
+        "nextHelperCommand": result.get("nextHelperCommand"),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
@@ -171,7 +251,16 @@ def cmd_trace(args: argparse.Namespace) -> int:
     result = build_trace(args.dir)
     if args.output:
         write_text_atomic(args.output, json.dumps(result, indent=2, sort_keys=True) + "\n")
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "health": result.get("health"),
+        "nextAction": result.get("nextAction"),
+        "validationOk": (result.get("validation") or {}).get("ok"),
+        "validationErrorCount": len((result.get("validation") or {}).get("errors", []) or []),
+    }
+    if args.output:
+        summary["outputPath"] = str(args.output)
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
@@ -179,13 +268,22 @@ def cmd_evidence(args: argparse.Namespace) -> int:
     result = build_evidence(args.dir)
     if args.output:
         write_text_atomic(args.output, json.dumps(result, indent=2, sort_keys=True) + "\n")
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "outcome": result.get("outcome"),
+        "metrics": result.get("metrics"),
+        "health": (result.get("trace") or {}).get("health"),
+    }
+    if args.output:
+        summary["outputPath"] = str(args.output)
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_validate_host_step(args: argparse.Namespace) -> int:
     result = validate_host_transport_metadata(load_json(args.host_step))
-    emit(result)
+    summary = {"ok": result["ok"], "summary": result.get("summary", {})}
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
@@ -200,19 +298,35 @@ def cmd_transport_init(args: argparse.Namespace) -> int:
         brief_path=args.brief_path,
         command_prefix=args.command_prefix,
     )
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "paths": result.get("paths"),
+        "parentContext": (result.get("hostStep") or {}).get("parentContext"),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_transport_append_batch(args: argparse.Namespace) -> int:
     result = append_wait_batch(args.dir, args.round, args.phase, load_json(args.wait_result))
-    emit(result)
+    summary = {"ok": result["ok"], "path": result.get("path")}
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_transport_collect(args: argparse.Namespace) -> int:
     result = collect_transport_step(args.dir, args.round, args.phase)
-    emit(result)
+    inner = result.get("result", {}) or {}
+    summary = {
+        "ok": result["ok"],
+        "complete": inner.get("complete"),
+        "timedOut": inner.get("timedOut"),
+        "missingAgentIds": inner.get("missingAgentIds", []),
+        "resultCount": len(inner.get("results", []) or []),
+        "collectResultPath": (result.get("paths") or {}).get("collectResultPath"),
+        "errors": result.get("errors", []),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
@@ -233,31 +347,56 @@ def cmd_capability_doctor(args: argparse.Namespace) -> int:
     if errors:
         result["ok"] = False
         result["errors"] = [*errors, *result["errors"]]
-    emit(result)
+    tool_evidence = result.get("toolEvidence", {}) or {}
+    summary = {
+        "ok": result["ok"],
+        "effective": result.get("effective", {}),
+        "toolEvidence": {
+            "recordCount": tool_evidence.get("recordCount", 0),
+            "acceptedCount": tool_evidence.get("acceptedCount", 0),
+            "citable": tool_evidence.get("citable", False),
+        },
+        "errors": result.get("errors", []),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_validate_loop(args: argparse.Namespace) -> int:
     result = validate_minimal_loop(args.discussion_dir)
-    emit(result)
+    summary = {"ok": result["ok"], "summary": result.get("summary", {}), "errors": result.get("errors", [])}
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_adapter_smoke(args: argparse.Namespace) -> int:
     result = adapter_smoke(args.dir, host_step_path=args.host_step)
-    emit(result)
+    summary = {"ok": result["ok"], "summary": result.get("summary", {}), "errors": result.get("errors", [])}
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_validate_round(args: argparse.Namespace) -> int:
     result = validate_round_file(args.round_path)
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "summary": result.get("summary", {}),
+        "warningCount": len(result.get("warnings", []) or []),
+        "errors": result.get("errors", []),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
 def cmd_validate_discussion(args: argparse.Namespace) -> int:
     result = validate_discussion_dir(args.discussion_dir)
-    emit(result)
+    summary = {
+        "ok": result["ok"],
+        "summary": result.get("summary", {}),
+        "warningCount": len(result.get("warnings", []) or []),
+        "errors": result.get("errors", []),
+    }
+    emit_summary(result, summary, args.full)
     return 0 if result["ok"] else 1
 
 
@@ -322,6 +461,13 @@ def build_parser() -> argparse.ArgumentParser:
     resume = sub.add_parser("resume-plan", help="Describe how to resume from WAL state")
     resume.add_argument("--dir", type=Path, required=True, help="Discussion directory")
     resume.set_defaults(func=cmd_resume_plan)
+
+    init_p = sub.add_parser("init", help="Scaffold a discussion directory and manifest")
+    init_p.add_argument("--dir", type=Path, required=True, help="Discussion directory")
+    init_p.add_argument("--discussion-id", required=True, help="Discussion id")
+    init_p.add_argument("--mode", default="standard", help="Discussion mode")
+    init_p.add_argument("--title", help="Optional discussion title")
+    init_p.set_defaults(func=cmd_init)
 
     trace = sub.add_parser("trace", help="Build a diagnostic discussion artifact trace")
     trace.add_argument("--dir", type=Path, required=True, help="Discussion directory")
@@ -405,6 +551,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     validate_discussion.add_argument("discussion_dir", type=Path)
     validate_discussion.set_defaults(func=cmd_validate_discussion)
+
+    # Every subcommand prints a compact summary by default; --full restores the
+    # full JSON result. Failures always print the full result regardless.
+    for subparser in sub.choices.values():
+        subparser.add_argument(
+            "--full",
+            action="store_true",
+            help="Print the full JSON result instead of the compact summary",
+        )
 
     return parser
 

@@ -23,7 +23,8 @@
       "fixtures/e2e/minimal-v2/transport/r001/response/spawn-order.json",
       "fixtures/e2e/minimal-v2/transport/r001/response/wait-batches.jsonl"
     ],
-    "root": "fixtures/e2e/minimal-v2"
+    "root": "fixtures/e2e/minimal-v2",
+    "totalBytes": 22916
   },
   "capabilities": {
     "effective": {
@@ -101,16 +102,20 @@
     "status": "completed",
     "title": "Minimal v2 discussion loop"
   },
-  "generatedAt": "2026-06-10T13:35:56Z",
+  "generatedAt": "2026-06-13T10:44:20Z",
   "kind": "swarm.discussion_evidence",
   "metrics": {
     "artifactCount": 21,
+    "artifactTotalBytes": 22916,
     "citableToolEvidenceCount": 1,
     "collectResultCount": 1,
     "eventCount": 2,
+    "eventSpanSeconds": 1,
     "finalRoundCount": 1,
     "partialRoundCount": 0,
     "promptBuildCount": 2,
+    "promptCharMax": 0,
+    "promptCharTotal": 0,
     "toolEvidenceRecordCount": 1,
     "validationErrorCount": 0
   },
