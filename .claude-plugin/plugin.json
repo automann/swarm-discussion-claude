@@ -1,6 +1,6 @@
 {
   "name": "swarm-discussion",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Claude adapter for swarm-discussion: the parent agent spawns a swarm-orchestrator sub-agent that runs a multi-expert discussion over the vendored host-agnostic runtime and returns only the synthesis. Keeps discussion mechanics out of the parent context window.",
   "license": "MIT",
   "author": { "name": "automann" },
