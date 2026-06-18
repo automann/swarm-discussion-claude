@@ -1,9 +1,7 @@
 {
   "artifacts": {
     "paths": [
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/evidence.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/synthesis.md",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/trace.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/brief.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/context/summary.md",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/events.jsonl",
@@ -36,7 +34,7 @@
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001-response2-spawn-order.json"
     ],
     "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout",
-    "totalBytes": 80659
+    "totalBytes": 59440
   },
   "capabilities": {
     "effective": {
@@ -89,11 +87,11 @@
     "status": "completed",
     "title": null
   },
-  "generatedAt": "2026-06-13T11:02:23Z",
+  "generatedAt": "2026-06-18T19:47:36Z",
   "kind": "swarm.discussion_evidence",
   "metrics": {
-    "artifactCount": 33,
-    "artifactTotalBytes": 80659,
+    "artifactCount": 31,
+    "artifactTotalBytes": 59440,
     "citableToolEvidenceCount": 0,
     "collectResultCount": 3,
     "eventCount": 8,

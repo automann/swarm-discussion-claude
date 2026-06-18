@@ -1,9 +1,7 @@
 {
   "artifacts": {
     "paths": [
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/evidence.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/synthesis.md",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/artifacts/trace.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/brief.json",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/context/summary.md",
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/events.jsonl",
@@ -36,7 +34,7 @@
       "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout/transport/r001-response2-spawn-order.json"
     ],
     "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/cert-config-layout",
-    "totalBytes": 80222
+    "totalBytes": 59440
   },
   "capabilities": {
     "effective": {
