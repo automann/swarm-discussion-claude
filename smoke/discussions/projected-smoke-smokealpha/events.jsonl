@@ -1,3 +1,0 @@
-{"data": {"discussionId": "projected-smoke-smokealpha", "mode": "lightweight"}, "seq": 1, "ts": "2026-06-21T15:22:45Z", "type": "discussion_initialized"}
-{"data": {"messageCount": 2, "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json.partial", "phase": "complete", "round": 1}, "seq": 2, "ts": "2026-06-21T15:23:06Z", "type": "checkpoint_written"}
-{"data": {"messageCount": 2, "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json", "round": 1}, "seq": 3, "ts": "2026-06-21T15:23:06Z", "type": "round_finalized"}

@@ -1,0 +1,7 @@
+{"data": {"discussionId": "projected-bg-smokebg", "mode": "lightweight"}, "seq": 1, "ts": "2026-06-21T15:35:32Z", "type": "discussion_initialized"}
+{"data": {"messageCount": 1, "path": "smoke/discussions/projected-bg-smokebg/rounds/001.json.partial", "phase": "response", "round": 1}, "seq": 2, "ts": "2026-06-21T15:39:08Z", "type": "checkpoint_written"}
+{"data": {"from": "architect", "messageId": "r1-msg-001", "phase": "response", "round": 1}, "seq": 3, "ts": "2026-06-21T15:39:08Z", "type": "message_appended"}
+{"data": {"messageCount": 2, "path": "smoke/discussions/projected-bg-smokebg/rounds/001.json.partial", "phase": "response", "round": 1}, "seq": 4, "ts": "2026-06-21T15:39:08Z", "type": "checkpoint_written"}
+{"data": {"from": "skeptic", "messageId": "r1-msg-002", "phase": "response", "round": 1}, "seq": 5, "ts": "2026-06-21T15:39:08Z", "type": "message_appended"}
+{"data": {"messageCount": 2, "path": "smoke/discussions/projected-bg-smokebg/rounds/001.json.partial", "phase": "complete", "round": 1}, "seq": 6, "ts": "2026-06-21T15:39:39Z", "type": "checkpoint_written"}
+{"data": {"messageCount": 2, "path": "smoke/discussions/projected-bg-smokebg/rounds/001.json", "round": 1}, "seq": 7, "ts": "2026-06-21T15:39:39Z", "type": "round_finalized"}

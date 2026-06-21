@@ -14,7 +14,7 @@ lightweight
 
 ## Parent Context
 
-v0.3.0 Claude adapter projected-discussion smoke.
+v0.3.0 Claude adapter coordinator-path validation.
 
 ## Constraints
 

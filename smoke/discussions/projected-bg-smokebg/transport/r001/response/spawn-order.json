@@ -1,0 +1,26 @@
+[
+  {
+    "agentDescriptor": {
+      "agentType": "swarm-smokebg-architect",
+      "invocationForm": "explicit_spawn",
+      "projectedName": "swarm-smokebg-architect",
+      "projectedPath": ".claude/agents/swarm-smokebg-architect.md",
+      "projectedSha256": "dcc77c307335f58941e3e3744dbe02d98b83dc0bec1ab32d0780d0a56b26aad7",
+      "promptRef": "prompts/r001/response/architect/prompt.txt"
+    },
+    "agentId": "swarm-smokebg-architect",
+    "persona": "architect"
+  },
+  {
+    "agentDescriptor": {
+      "agentType": "swarm-smokebg-skeptic",
+      "invocationForm": "explicit_spawn",
+      "projectedName": "swarm-smokebg-skeptic",
+      "projectedPath": ".claude/agents/swarm-smokebg-skeptic.md",
+      "projectedSha256": "d85162c51648f2ea08a038dc3067744bf7b8978f98485e00d342a3f9b6165bf1",
+      "promptRef": "prompts/r001/response/skeptic/prompt.txt"
+    },
+    "agentId": "swarm-smokebg-skeptic",
+    "persona": "skeptic"
+  }
+]

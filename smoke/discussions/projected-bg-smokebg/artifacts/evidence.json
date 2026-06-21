@@ -1,27 +1,27 @@
 {
   "artifacts": {
     "paths": [
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/artifacts/synthesis.md",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/brief.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/context/summary.md",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/events.jsonl",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/manifest.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/progress.md",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/projection-manifest.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/architect/prompt-build.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/architect/prompt.txt",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/architect/request.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/skeptic/prompt-build.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/skeptic/prompt.txt",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/skeptic/request.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/collect-result.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/host-step.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/spawn-order.json",
-      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/wait-batches.jsonl"
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/artifacts/synthesis.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/brief.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/context/summary.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/events.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/manifest.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/progress.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/projection-manifest.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/prompts/r001/response/architect/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/prompts/r001/response/architect/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/prompts/r001/response/architect/request.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/prompts/r001/response/skeptic/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/prompts/r001/response/skeptic/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/prompts/r001/response/skeptic/request.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/rounds/001.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/transport/r001/response/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/transport/r001/response/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/transport/r001/response/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/transport/r001/response/wait-batches.jsonl"
     ],
-    "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha",
-    "totalBytes": 20241
+    "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg",
+    "totalBytes": 60395
   },
   "capabilities": {
     "effective": {
@@ -68,26 +68,26 @@
     "toolEvidencePath": null
   },
   "discussion": {
-    "id": "projected-smoke-smokealpha",
+    "id": "projected-bg-smokebg",
     "mode": "lightweight",
     "schemaVersion": 1,
     "status": "completed",
-    "title": null
+    "title": "Composed round-step command vs granular primitives"
   },
-  "generatedAt": "2026-06-21T15:24:47Z",
+  "generatedAt": "2026-06-21T15:42:29Z",
   "kind": "swarm.discussion_evidence",
   "metrics": {
     "artifactCount": 18,
-    "artifactTotalBytes": 20241,
+    "artifactTotalBytes": 60395,
     "citableToolEvidenceCount": 0,
     "collectResultCount": 1,
-    "eventCount": 3,
-    "eventSpanSeconds": 21,
+    "eventCount": 7,
+    "eventSpanSeconds": 247,
     "finalRoundCount": 1,
     "partialRoundCount": 0,
     "promptBuildCount": 2,
-    "promptCharMax": 1436,
-    "promptCharTotal": 2855,
+    "promptCharMax": 2328,
+    "promptCharTotal": 4612,
     "toolEvidenceRecordCount": 0,
     "validationErrorCount": 0
   },
@@ -114,8 +114,15 @@
     "visibility": {}
   },
   "quality": {
-    "qualityScore": 0.82,
-    "recommendation": "Keep granular transport/WAL primitives; a composed round-step is sugar an adapter can add without the runtime losing auditability.",
+    "qualityScore": {
+      "evidenceQuality": 4,
+      "genuineDisagreement": 4,
+      "novelInsights": 4,
+      "overall": 4,
+      "positionEvolution": 2,
+      "steelManning": 5
+    },
+    "recommendation": "synthesize",
     "synthesisPresent": true
   },
   "rawHostLogs": {
@@ -140,7 +147,7 @@
         "errorCount": 0,
         "missingAgentIds": [],
         "ok": true,
-        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/collect-result.json",
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/transport/r001/response/collect-result.json",
         "resultCount": 2,
         "timedOut": false
       }
@@ -153,7 +160,7 @@
     "errorCount": 0,
     "ok": true,
     "summary": {
-      "discussionId": "projected-smoke-smokealpha",
+      "discussionId": "projected-bg-smokebg",
       "roundCount": 1,
       "status": "completed",
       "validatedRounds": 1
@@ -162,10 +169,11 @@
   },
   "wal": {
     "events": {
-      "count": 3,
+      "count": 7,
       "counts": {
-        "checkpoint_written": 1,
+        "checkpoint_written": 3,
         "discussion_initialized": 1,
+        "message_appended": 2,
         "round_finalized": 1
       },
       "lastType": "round_finalized"
@@ -179,7 +187,7 @@
       "phase": "complete",
       "round": 1,
       "source": "final",
-      "statePath": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json"
+      "statePath": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/rounds/001.json"
     },
     "rounds": {
       "finalCount": 1,
@@ -187,7 +195,7 @@
       "rounds": [
         {
           "messageCount": 2,
-          "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json",
+          "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/rounds/001.json",
           "round": 1,
           "source": "final",
           "validationOk": true

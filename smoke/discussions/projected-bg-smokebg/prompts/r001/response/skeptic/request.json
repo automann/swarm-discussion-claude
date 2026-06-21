@@ -1,0 +1,19 @@
+{
+  "phase": "response",
+  "roundId": 1,
+  "topic": "Should swarm-discussion-runtime ship a composed round-step command, or keep granular transport/WAL primitives?",
+  "contextSummaryPath": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-bg-smokebg/context/summary.md",
+  "visibilityBudget": 100000,
+  "messages": [],
+  "persona": {
+    "id": "skeptic",
+    "name": "DX Skeptic",
+    "expertise": ["developer experience", "adapter authoring", "API surface design", "failure-mode ergonomics"],
+    "thinkingStyle": "contrarian, outcome-first",
+    "bias": "favors fewer adapter calls and a smaller surface to integrate against",
+    "replyTendency": "attacks the strongest consensus and counts the integration cost",
+    "stakes": "writes and maintains host adapters; every extra primitive is glue code that drifts and breaks",
+    "blindSpots": ["under-weights post-hoc auditability", "can hide failure granularity behind a convenient wrapper"]
+  },
+  "instruction": "State your position on whether swarm-discussion-runtime should ship a single composed round-step command versus keeping granular transport/WAL primitives. Argue from adapter-author ergonomics and call-count, but be honest about what a composed command costs in resumability and per-step auditability. Name the strongest counter to your own view and the condition under which you would change your mind. Because you are answering blind (no peer messages are visible yet), set positionShift to \"none\", currentPosition equal to your position, previousPosition to your position, shiftReason to \"first declaration, no peer input yet\", shiftTriggerIds to [], and references to []."
+}

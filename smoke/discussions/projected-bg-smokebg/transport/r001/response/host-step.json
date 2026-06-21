@@ -5,12 +5,12 @@
     "spawnOrderPath": "transport/r001/response/spawn-order.json",
     "waitBatchesPath": "transport/r001/response/wait-batches.jsonl"
   },
-  "discussionId": "projected-smoke-smokealpha",
+  "discussionId": "projected-bg-smokebg",
   "host": "claude",
   "parentContext": {
     "agentIds": [
-      "swarm-smokealpha-architect",
-      "swarm-smokealpha-skeptic"
+      "swarm-smokebg-architect",
+      "swarm-smokebg-skeptic"
     ],
     "briefPath": "context/summary.md",
     "nextHelperCommand": "swarm-rt transport-collect --dir . --round 1 --phase response",
