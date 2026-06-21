@@ -1,0 +1,15 @@
+{
+  "topic": "Should swarm-discussion-runtime ship a composed round-step command, or keep granular transport/WAL primitives?",
+  "objective": "Decide whether to add a composed round-step command.",
+  "mode": "lightweight",
+  "parentContext": "v0.3.0 Claude adapter projected-discussion smoke.",
+  "constraints": [
+    "host-agnostic runtime"
+  ],
+  "knownFacts": [
+    "command granularity is intentional today"
+  ],
+  "successCriteria": [
+    "a clear recommendation with the strongest counter"
+  ]
+}

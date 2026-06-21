@@ -1,0 +1,198 @@
+{
+  "artifacts": {
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/artifacts/synthesis.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/brief.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/context/summary.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/events.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/manifest.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/progress.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/projection-manifest.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/architect/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/architect/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/architect/request.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/skeptic/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/skeptic/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/skeptic/request.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/wait-batches.jsonl"
+    ],
+    "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha",
+    "totalBytes": 20241
+  },
+  "capabilities": {
+    "effective": {
+      "allowedTools": [],
+      "broadTools": [],
+      "canCiteToolDerivedEvidence": false,
+      "citationRule": "tool evidence must be logged, validated, and allowed by the active profile",
+      "default": true,
+      "id": "expert-basic",
+      "ordinaryExpert": true,
+      "readonlyTools": [],
+      "role": "ordinary-expert",
+      "toolEvidencePolicy": {
+        "requiresLoggedToolCall": true,
+        "requiresValidation": true
+      }
+    },
+    "errors": [],
+    "ok": true,
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/vendor/swarm-runtime/profiles/expert-basic.json"
+    ],
+    "profile": {
+      "allowedTools": [],
+      "broadTools": [],
+      "default": true,
+      "id": "expert-basic",
+      "ordinaryExpert": true,
+      "readonlyTools": [],
+      "role": "ordinary-expert",
+      "toolEvidencePolicy": {
+        "requiresLoggedToolCall": true,
+        "requiresValidation": true
+      }
+    },
+    "profilePath": "/Users/syfq/dev/harness/swarm-discussion-claude/vendor/swarm-runtime/profiles/expert-basic.json",
+    "source": "default",
+    "toolEvidence": {
+      "accepted": [],
+      "acceptedCount": 0,
+      "citable": false,
+      "errors": [],
+      "recordCount": 0
+    },
+    "toolEvidencePath": null
+  },
+  "discussion": {
+    "id": "projected-smoke-smokealpha",
+    "mode": "lightweight",
+    "schemaVersion": 1,
+    "status": "completed",
+    "title": null
+  },
+  "discussionDir": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha",
+  "events": {
+    "count": 3,
+    "counts": {
+      "checkpoint_written": 1,
+      "discussion_initialized": 1,
+      "round_finalized": 1
+    },
+    "errors": [],
+    "firstTs": "2026-06-21T15:22:45Z",
+    "last": {
+      "data": {
+        "messageCount": 2,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json",
+        "round": 1
+      },
+      "seq": 3,
+      "ts": "2026-06-21T15:23:06Z",
+      "type": "round_finalized"
+    },
+    "lastTs": "2026-06-21T15:23:06Z",
+    "spanSeconds": 21
+  },
+  "health": "on-track",
+  "kind": "swarm.discussion_trace",
+  "nextAction": {
+    "command": null,
+    "kind": "none",
+    "reason": "discussion completed"
+  },
+  "ok": true,
+  "prompts": {
+    "count": 2,
+    "errors": [],
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/architect/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/prompts/r001/response/skeptic/prompt-build.json"
+    ],
+    "personas": {
+      "architect": 1,
+      "skeptic": 1
+    },
+    "phases": {
+      "response": 2
+    },
+    "promptBuildCount": 2,
+    "promptCharCounted": 2,
+    "promptCharMax": 1436,
+    "promptCharTotal": 2855,
+    "visibility": {}
+  },
+  "quality": {
+    "qualityScore": 0.82,
+    "recommendation": "Keep granular transport/WAL primitives; a composed round-step is sugar an adapter can add without the runtime losing auditability.",
+    "synthesisPresent": true
+  },
+  "resume": {
+    "maxId": "r1-msg-002",
+    "messageCount": 2,
+    "nextAction": "start_next_round",
+    "nextMessageId": "r1-msg-003",
+    "ok": true,
+    "phase": "complete",
+    "round": 1,
+    "source": "final",
+    "statePath": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json"
+  },
+  "rounds": {
+    "finalCount": 1,
+    "partialCount": 0,
+    "rounds": [
+      {
+        "messageCount": 2,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/rounds/001.json",
+        "round": 1,
+        "source": "final",
+        "validationOk": true
+      }
+    ]
+  },
+  "transport": {
+    "collectResultCount": 1,
+    "collectResults": [
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/collect-result.json",
+        "resultCount": 2,
+        "timedOut": false
+      }
+    ],
+    "complete": true,
+    "errors": [],
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/projected-smoke-smokealpha/transport/r001/response/collect-result.json"
+    ],
+    "spawnOrderCount": 1,
+    "waitBatchCount": 1
+  },
+  "validation": {
+    "errors": [],
+    "ok": true,
+    "summary": {
+      "discussionId": "projected-smoke-smokealpha",
+      "roundCount": 1,
+      "status": "completed",
+      "validatedRounds": 1
+    },
+    "warnings": [
+      {
+        "code": "missing_persona_context_log",
+        "message": "shift provenance skipped because personaContextLog is absent",
+        "path": "personaContextLog"
+      }
+    ]
+  }
+}
