@@ -64,9 +64,11 @@ End users install through the `swarm-discussion` aggregator marketplace; this
 adapter repo intentionally ships no `marketplace.json` (distribution is the
 aggregator's responsibility per the runtime repo's `docs/ADAPTER-SPEC.md`).
 
-Verified 2026-06-11 on Claude Code 2.1.177: `claude plugin validate` passes,
-`--plugin-dir` registers both agent types and the skill, and the real
-`swarm-discussion:swarm-expert` type spawns and returns as a Read-only leaf.
+Verified 2026-06-22: `claude plugin validate` passes; `--plugin-dir` registers
+`swarm-discussion:swarm-coordinator` and the `swarm-discussion` skill; a fresh
+`claude -p --agent` session loads a just-written run-scoped `.claude/agents`
+project agent (the projected-expert mechanism); and a real coordinator-driven
+projected discussion certifies `certify_adapter.py --require-projection` (5/5).
 
 ## Release
 
@@ -97,7 +99,8 @@ python3 <runtime-repo>/scripts/vendor.py vendor --dest <this-repo>/vendor/swarm-
 python3 <runtime-repo>/scripts/vendor.py verify --dest <this-repo>/vendor/swarm-runtime
 ```
 
-Check readiness (runtime contract, bundled-fixture gates, host nesting support):
+Check readiness (runtime contract, bundled-fixture gates, host nesting +
+background-session support):
 
 ```bash
 python3 bin/swarm_runtime_wrapper.py doctor --smoke-fixture
