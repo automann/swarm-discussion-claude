@@ -1,6 +1,6 @@
 ---
 name: swarm-expert
-description: One participant in a structured swarm-discussion. Embodies the persona/role supplied in the spawn prompt and returns ONLY the requested JSON. Spawned by the swarm-orchestrator agent; not for standalone use.
+description: Canonical no-tools template for one swarm-discussion participant. The parent skill specializes it per-topic into a run-scoped project agent (.claude/agents/swarm-<runId>-<role>.md); that projected agent embodies the persona supplied in the runtime prompt and returns ONLY the requested JSON. Spawned by the swarm-coordinator; not for standalone use.
 tools: Read
 model: inherit
 ---
@@ -18,4 +18,8 @@ Rules:
 - You normally need no tools: everything you may cite is already in the prompt. The `Read` tool is available
   only if a task explicitly asks you to inspect a referenced file; never browse or modify anything.
 - You do not coordinate, spawn other agents, or mutate shared state. You are an ephemeral leaf: read your
-  context once and return your contribution. All shared state is the orchestrator's job.
+  context once and return your contribution. All shared state is the coordinator's job.
+
+This file is the TEMPLATE. For a real discussion the parent skill writes a run-scoped copy at
+`.claude/agents/swarm-<runId>-<role>.md` whose body fixes the persona identity (the per-phase task still
+comes from the runtime `prompt-build` prompt). Keep `tools: Read` only; never add `Agent`.

@@ -4,7 +4,7 @@
 Contains no discussion mechanics. It discovers the vendored runtime CLI, checks
 the runtime contract, records host nesting support, and delegates the
 integration gates and runtime primitives. The discussion protocol lives in the
-vendored runtime's `protocol/` and is driven by the swarm-orchestrator agent.
+vendored runtime's `protocol/` and is driven by the swarm-coordinator background session.
 """
 
 from __future__ import annotations
@@ -30,6 +30,7 @@ VENDOR_SUBDIR = ("vendor", "swarm-runtime")
 BUNDLED_CLI = (*VENDOR_SUBDIR, "runtime", "swarm_rt.py")
 FIXTURE_REL = (*VENDOR_SUBDIR, "fixtures", "e2e", "minimal-v2")
 MIN_NESTING_VERSION = (2, 1, 172)
+MIN_AGENT_VIEW_VERSION = (2, 1, 139)
 PRIMITIVE_COMMANDS = [
     "context-build",
     "prompt-build",
@@ -181,6 +182,39 @@ def host_nesting() -> dict[str, Any]:
     }
 
 
+def host_background_sessions() -> dict[str, Any]:
+    """Record whether this host supports background sessions (`claude --bg` / agent view).
+
+    The v0.3.0 coordinator runs as a background session — the only Claude path that
+    can spawn dynamically-projected `.claude/agents` files (they load at a fresh
+    session's start). Capability is probed with `claude agents --json`, which prints
+    a JSON array when agent view is available and errors / prints subagents when it
+    is not. The skill stops if this is not `true` (no silent fallback; ADR 0001 D2).
+    """
+    min_version = ".".join(map(str, MIN_AGENT_VIEW_VERSION))
+    claude = shutil.which("claude")
+    if not claude:
+        return {"supported": None, "probe": "claude agents --json", "reason": "claude not on PATH", "minVersion": min_version}
+    try:
+        out = subprocess.run([claude, "agents", "--json"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+    except OSError as exc:
+        return {"supported": None, "probe": "claude agents --json", "reason": str(exc), "minVersion": min_version}
+    parsed: Any | None = None
+    if out.stdout.strip():
+        try:
+            parsed = json.loads(out.stdout)
+        except json.JSONDecodeError:
+            parsed = None
+    supported = out.returncode == 0 and isinstance(parsed, list)
+    return {
+        "supported": supported,
+        "probe": "claude agents --json",
+        "returncode": out.returncode,
+        "minVersion": min_version,
+        "reason": None if supported else "claude agents --json did not return a JSON array (agent view unavailable or disabled)",
+    }
+
+
 def resolve_runtime(explicit: str | None) -> dict[str, Any]:
     attempts: list[dict[str, Any]] = []
     for candidate in runtime_candidates(explicit):
@@ -238,6 +272,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
             "fixtureDir": str(plugin_fixture_dir()),
         },
         "hostNesting": nesting,
+        "hostBackgroundSessions": host_background_sessions(),
         "attempts": resolved["attempts"],
     }
     if resolved["ok"]:
@@ -301,7 +336,10 @@ def cmd_adapter_smoke(args: argparse.Namespace) -> int:
 
 
 def cmd_validate_loop(args: argparse.Namespace) -> int:
-    return _delegate(args, [VALIDATE_LOOP, str(args.dir)])
+    runtime_args = [VALIDATE_LOOP, str(args.dir)]
+    if args.require_projection:
+        runtime_args.append("--require-projection")
+    return _delegate(args, runtime_args)
 
 
 def cmd_runtime_primitive(args: argparse.Namespace) -> int:
@@ -330,6 +368,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     loop = sub.add_parser(VALIDATE_LOOP, help="Run runtime validate-loop through the wrapper")
     loop.add_argument("dir", type=Path, help="Discussion directory")
+    loop.add_argument("--require-projection", action="store_true", help="Require projected custom-agent provenance (v0.3.0 release mode)")
     loop.set_defaults(func=cmd_validate_loop)
 
     for command in PRIMITIVE_COMMANDS:
