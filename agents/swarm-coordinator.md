@@ -21,8 +21,8 @@ load only at a session's start.
 - `pluginRoot` — absolute path to the installed plugin directory.
 - `discussionDir` — absolute path to this discussion's directory
   (`<workspace>/.swarm/discussions/<id>`). May not exist yet.
-- `discussionId`, `runId`, `mode` (`lightweight` | `standard` | `deep`), and the
-  `brief` (JSON object or `briefPath`).
+- `discussionId`, `runId`, `mode` (`lightweight` | `standard` | `deep`), `stressPolicy`
+  (`auto` | `required` | `off`), and the `brief` (JSON object or `briefPath`).
 - `roster` — the JSON list the parent already projected, one entry per expert:
   `{"role": "...", "persona": "<stance/bias one-liner>", "projectedName": "swarm-<runId>-<role>", "projectedPath": ".claude/agents/swarm-<runId>-<role>.md", "projectedSha256": "<64 hex>"}`.
   You spawn EXACTLY these agents by `projectedName`; you do not invent experts and
@@ -57,7 +57,7 @@ is in `$PROTO/README.md`.
 ## Flow
 
 ### 1. Initialize
-- `$RT init --dir <discussionDir> --discussion-id <discussionId> --mode <mode>`
+- `$RT init --dir <discussionDir> --discussion-id <discussionId> --mode <mode> --stress-policy <stressPolicy>`
   (creates the tree + `manifest.json`, status `active`; reuse on `already_initialized`).
 - Write the brief to `<discussionDir>/brief.json` (or use `briefPath`), then
   `$RT context-build --brief <brief.json> --out <discussionDir>/context/summary.md`.
@@ -78,9 +78,22 @@ is in `$PROTO/README.md`.
 Runtime commands print a compact summary by default; the full payload lives in the
 artifact each writes. Read that artifact (or pass `--full`) when you need it.
 
-### 2. Run each round / phase
-For each phase the protocol prescribes (declaration → argumentation → response →
-fixed-role gates → …):
+### 2. Run the bounded debate loop (per round)
+Drive these phases IN ORDER, each via the per-phase mechanics below:
+
+- **position** (`declaration`) — blind stance (no peer visibility yet).
+- **argument** (`argumentation`) — each expert cites visible peers.
+- **stress-check** — after the argument phase and BEFORE synthesis, call
+  `$RT stress-check --dir <discussionDir> --round N`. Record its `stressRequired` and
+  `argumentDigest` for the round `quality` block (step 3). Then:
+  - if `stressRequired` (always for `stressPolicy: required`; data-driven for `auto`):
+    run **stress** (the `contrarian` phase — the contrarian attacks the STRONGEST
+    consensus; the message you append for it MUST have `type: "stress_test"`), then
+    **response** (each challenged expert answers, citing the `stress_test` id in its OWN
+    `references` and declaring a `positionShift` with `shiftTriggerIds`).
+  - otherwise (or `stressPolicy: off`): proceed to synthesis.
+
+**Per-phase mechanics** — for each phase above:
 
 1. For each roster entry, build its prompt request JSON (persona/stance from the
    roster, phase, topic, visible slice, output schema per `$PROTO/prompts.md`) and
@@ -120,9 +133,15 @@ fixed-role gates → …):
    `$RT append-message --dir <discussionDir> --round N --phase <phase> --message <msg.json>`.
 
 ### 3. Finalize the round
-- Build the final round state (`roundId`, `topic`, `mode`, `messages`,
-  `argumentGraph`, `positionShifts`, `synthesis`); `finalize-round` derives
-  `metadata`/`timestamp`. `$RT finalize-round --dir <discussionDir> --round N --state <final.json>`.
+- Build the final round state (`roundId`, `topic`, `mode`, `messages`, `argumentGraph`,
+  `positionShifts`, `synthesis`) **plus a `quality` block** recording the pre-synthesis
+  decision: `{"stressPolicy": "<stressPolicy>", "stressRequired": <from stress-check>,
+  "argumentDigest": "<from stress-check>", "genuineDisagreement": <0-10>,
+  "minorityReportPresent": <bool>}`. `finalize-round` writes the authoritative structural
+  fields (`counterEdgeCount`, `positionShiftCount`, `stressTriggered`) and derives
+  `metadata`/`timestamp`, preserving your `stressRequired`/`argumentDigest` as the durable
+  decision; the `synthesis` should carry a `minorityReport`. `$RT finalize-round --dir
+  <discussionDir> --round N --state <final.json>`.
 - Decide termination per the protocol. If continuing, start round N+1.
 
 ### 4. Synthesize and audit
@@ -130,8 +149,9 @@ fixed-role gates → …):
   `completed` (required for `trace` `nextAction: none` / health `on-track`).
 - `$RT trace --dir <discussionDir> --output <discussionDir>/artifacts/trace.json`
 - `$RT evidence --dir <discussionDir> --output <discussionDir>/artifacts/evidence.json`
-- `$RT validate-loop <discussionDir>` — must be `ok` (this enforces the projected
-  provenance gate, since the phases declare projection).
+- `$RT validate-loop <discussionDir> --require-projection --require-stress` — must be `ok`
+  (enforces the projected-provenance gate and, when `stressPolicy != off`, the debate-depth
+  gate).
 
 ## Return value
 

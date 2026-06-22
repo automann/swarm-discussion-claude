@@ -45,7 +45,10 @@ If unsupported, tell the user this host can't run the v0.3.0 topology and stop.
 ## 3. Assemble the brief and ids
 
 Build a compact brief JSON (do not dump the conversation): `topic`, `objective`, `mode`
-(`lightweight|standard|deep`), `parentContext`, `constraints`, `knownFacts`, `successCriteria`. Pick a
+(`lightweight|standard|deep` — map the request to a real tier by stakes; never free text),
+`stressPolicy` (`auto|required|off`; default from mode — lightweight→off, standard→auto,
+deep→required; use `required` when the user wants a rigorous/adversarial decision),
+`parentContext`, `constraints`, `knownFacts`, `successCriteria`. Pick a
 `discussionId` slug, a collision-safe `runId` (e.g. `discussionId` + a short timestamp/random suffix), and
 set `discussionDir="$(pwd)/.swarm/discussions/<discussionId>"`.
 
@@ -88,7 +91,7 @@ claude --bg --agent swarm-discussion:swarm-coordinator --name "swarm-<runId>" "<
 ```
 
 The `<packet>` is a prompt that gives the coordinator: `pluginRoot`, `discussionDir`, `discussionId`,
-`runId`, `mode`, the `brief` JSON, and the `roster` JSON (it spawns exactly those `projectedName`s). Capture
+`runId`, `mode`, `stressPolicy`, the `brief` JSON, and the `roster` JSON (it spawns exactly those `projectedName`s). Capture
 the short session id printed as `backgrounded · <id> · swarm-<runId>`.
 
 You hold ONLY the brief + roster, and later the synthesis — never the rounds, prompts, or fan-in.
@@ -131,6 +134,12 @@ m["remainingPaths"]=remaining
 m["deletionStatus"]="clean" if not remaining else "partial"
 json.dump(m,open(p,"w"),indent=2,sort_keys=True); open(p,"a").write("\n")
 PY
+# B-1: the manifest finalization above mutated projection-manifest.json AFTER the
+# coordinator wrote trace/evidence, so regenerate them to reflect the clean state —
+# else --require-projection rejects the retained evidence as stale.
+RT="python3 $PLUGIN_ROOT/vendor/swarm-runtime/runtime/swarm_rt.py"
+$RT trace --dir "$discussionDir" --output "$discussionDir/artifacts/trace.json" >/dev/null
+$RT evidence --dir "$discussionDir" --output "$discussionDir/artifacts/evidence.json" >/dev/null
 claude stop "<id>" 2>/dev/null || true
 claude rm "<id>" 2>/dev/null || true
 ```
@@ -141,5 +150,5 @@ A completed run must leave NO `.claude/agents/swarm-<runId>-*` file behind and t
 ## Optional self-check
 
 ```bash
-python3 "$PLUGIN_ROOT/bin/swarm_runtime_wrapper.py" validate-loop "<discussionDir>" --require-projection
+python3 "$PLUGIN_ROOT/bin/swarm_runtime_wrapper.py" validate-loop "<discussionDir>" --require-projection --require-stress
 ```

@@ -339,6 +339,8 @@ def cmd_validate_loop(args: argparse.Namespace) -> int:
     runtime_args = [VALIDATE_LOOP, str(args.dir)]
     if args.require_projection:
         runtime_args.append("--require-projection")
+    if args.require_stress:
+        runtime_args.append("--require-stress")
     return _delegate(args, runtime_args)
 
 
@@ -369,6 +371,7 @@ def build_parser() -> argparse.ArgumentParser:
     loop = sub.add_parser(VALIDATE_LOOP, help="Run runtime validate-loop through the wrapper")
     loop.add_argument("dir", type=Path, help="Discussion directory")
     loop.add_argument("--require-projection", action="store_true", help="Require projected custom-agent provenance (v0.3.0 release mode)")
+    loop.add_argument("--require-stress", action="store_true", help="Require the declared stressPolicy be satisfied (engineered disagreement; ADR 0002)")
     loop.set_defaults(func=cmd_validate_loop)
 
     for command in PRIMITIVE_COMMANDS:
