@@ -1,0 +1,75 @@
+{
+  "complete": true,
+  "errors": [],
+  "missingAgentIds": [],
+  "missingPersonas": [],
+  "ok": true,
+  "receivedAgentIds": [
+    "swarm-stressbg1-advocate",
+    "swarm-stressbg1-skeptic"
+  ],
+  "requiredAgentIds": [
+    "swarm-stressbg1-advocate",
+    "swarm-stressbg1-skeptic"
+  ],
+  "results": [
+    {
+      "agentDescriptor": {
+        "agentType": "swarm-stressbg1-advocate",
+        "invocationForm": "explicit_spawn",
+        "projectedName": "swarm-stressbg1-advocate",
+        "projectedPath": ".claude/agents/swarm-stressbg1-advocate.md",
+        "projectedSha256": "a12f9c81877f4feea282c0416dd7995304babcaa84cfcc27a29e771490d8afb4",
+        "promptRef": "prompts/r001/position/advocate/prompt.txt"
+      },
+      "agentId": "swarm-stressbg1-advocate",
+      "persona": "advocate",
+      "result": {
+        "conditions": [
+          "Registry persists only the definition layer (persona, system prompt, tuning params, opt-in distilled lessons) and NEVER live working memory or run transcripts, so per-run provenance stays certifiable",
+          "Each run clones the registry definition into a fresh ephemeral instance; the instance's working state is cleaned up at run-end exactly as in v0.3 (zero residue preserved)",
+          "Cross-run accumulated context is admitted only via an explicit, versioned, signed 'lessons' artifact that a run must opt into, never auto-injected, so 'no cross-run contamination by default' holds",
+          "Registry entries are content-addressed and version-pinned per run, so every result records exactly which expert definition version it used (reproducibility + warm-start both satisfied)"
+        ],
+        "confidence": 0.66,
+        "keyRisk": "Staleness and cross-run contamination via the registry: pinned-but-outdated expert definitions silently degrade quality, and the opt-in 'lessons' channel becomes a leak vector if discipline slips, plus added lifecycle/GC complexity",
+        "position": "hybrid: a persistent expert registry that warm-starts run-scoped ephemeral instances, where the registry stores reusable expert definitions (persona, tuning, distilled prior-run lessons) but every run instantiates fresh, isolated working state that is still deleted at run-end to satisfy the zero-residue certification gate",
+        "wouldChangeIf": [
+          "Definition-layer reuse cannot be cleanly separated from working-state reuse in implementation, collapsing the isolation boundary that keeps provenance certifiable",
+          "Version-pinning + content-addressing fails to make registry-warm-started runs reproducible against pure ephemeral runs",
+          "The lifecycle/cleanup cost of versioning and garbage-collecting stale registry entries exceeds the warm-start latency it saves"
+        ]
+      }
+    },
+    {
+      "agentDescriptor": {
+        "agentType": "swarm-stressbg1-skeptic",
+        "invocationForm": "explicit_spawn",
+        "projectedName": "swarm-stressbg1-skeptic",
+        "projectedPath": ".claude/agents/swarm-stressbg1-skeptic.md",
+        "projectedSha256": "7b88f39364f04b9d41f983498986e91b025b4b243e1cd81daea3d68853f9c3ab",
+        "promptRef": "prompts/r001/position/skeptic/prompt.txt"
+      },
+      "agentId": "swarm-stressbg1-skeptic",
+      "persona": "skeptic",
+      "result": {
+        "conditions": [
+          "v0.3 cleanup remains a hard certification gate that proves zero residue after every run",
+          "Cold-start cost is bounded by projecting experts from a versioned, content-addressed source at session start (custom agents load only at session start)",
+          "Any accumulated context that must survive a run is written to an explicit, auditable artifact store outside the expert, not carried as hidden in-expert state",
+          "Each run's provenance is sealed to the run scope: expert identity, source version, and inputs are certifiable per run",
+          "If warm-start is ever needed, it is rebuilt deterministically from the versioned source, not from a mutated live expert"
+        ],
+        "confidence": 0.78,
+        "keyRisk": "Cold-start cost and loss of accumulated context: re-projecting experts every run adds latency and discards warm context, risking a slow, forgetful system unless deterministic projection and an external auditable context store offset it.",
+        "position": "ephemeral",
+        "wouldChangeIf": [
+          "A persistent registry can demonstrate certifiable zero cross-run contamination at equal or lower audit cost than ephemeral cleanup",
+          "Cold-start latency is measured to dominate total run cost AND cannot be mitigated by deterministic projection/caching of immutable source",
+          "Losing accumulated context is shown to materially degrade decision quality in a way an external, versioned artifact store cannot recover"
+        ]
+      }
+    }
+  ],
+  "timedOut": false
+}

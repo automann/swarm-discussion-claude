@@ -1,0 +1,46 @@
+{
+  "artifacts": {
+    "collectResultPath": "transport/r001/position/collect-result.json",
+    "hostStepPath": "transport/r001/position/host-step.json",
+    "spawnOrderPath": "transport/r001/position/spawn-order.json",
+    "waitBatchesPath": "transport/r001/position/wait-batches.jsonl"
+  },
+  "discussionId": "stress-bg-smoke",
+  "host": "claude",
+  "parentContext": {
+    "agentIds": [
+      "swarm-stressbg1-advocate",
+      "swarm-stressbg1-skeptic"
+    ],
+    "briefPath": "context/summary.md",
+    "nextHelperCommand": "swarm-rt transport-collect --dir . --round 1 --phase position",
+    "phase": "position"
+  },
+  "phase": "position",
+  "round": 1,
+  "runtimeCommands": {
+    "appendMessage": "swarm-rt append-message --dir . --round 1 --phase position --message <message.json>",
+    "checkpoint": "swarm-rt checkpoint --dir . --round 1 --phase position --state rounds/001.json.partial",
+    "collectMerge": "swarm-rt collect-merge --spawn-order transport/r001/position/spawn-order.json --wait-result transport/r001/position/wait-batches.jsonl",
+    "contextBuild": "swarm-rt context-build --brief brief.json --out context/summary.md",
+    "evidence": "swarm-rt evidence --dir . --output artifacts/evidence.json",
+    "finalizeRound": "swarm-rt finalize-round --dir . --round 1 --state rounds/001.json",
+    "promptBuild": "swarm-rt prompt-build --request prompts/r001/position/<agent-id>/request.json --out-dir prompts/r001/position/<agent-id>",
+    "trace": "swarm-rt trace --dir ."
+  },
+  "schemaVersion": 1,
+  "transport": {
+    "customAgentProjection": {
+      "agentSourceDir": ".claude/agents",
+      "count": 2,
+      "projected": true
+    },
+    "partialBatches": true,
+    "rawHostLogs": {
+      "required": false
+    },
+    "resultKey": "name",
+    "spawnPrimitive": "Agent",
+    "waitPrimitive": "Agent result collection"
+  }
+}

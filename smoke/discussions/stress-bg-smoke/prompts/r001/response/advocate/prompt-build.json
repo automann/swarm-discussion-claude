@@ -1,0 +1,66 @@
+{
+  "contextSummaryCharCount": 864,
+  "errors": [],
+  "injectedIds": [
+    "r1-msg-001",
+    "r1-msg-002",
+    "r1-msg-003",
+    "r1-msg-004",
+    "r1-msg-005"
+  ],
+  "inputs": {
+    "contextSummarySha256": "6d2a49da893656e39e04788e7803f46d540cda07c6685ed2cd4b8d70cef9c0b2",
+    "messageCount": 5,
+    "visibilityBudget": 100000
+  },
+  "ok": true,
+  "outputContract": {
+    "format": "json",
+    "requiredKeys": [
+      "position",
+      "reasoning",
+      "references",
+      "positionShift",
+      "currentPosition",
+      "previousPosition",
+      "shiftReason",
+      "shiftTriggerIds"
+    ],
+    "requiresReferences": true,
+    "requiresShiftTriggerIds": true
+  },
+  "persona": {
+    "bias": "Favors a persistent expert registry reused across runs for warm-start, accumulated context, and cross-run consistency.",
+    "blindSpots": [
+      "staleness",
+      "cross-run contamination",
+      "lifecycle/cleanup complexity"
+    ],
+    "expertise": [
+      "agent lifecycle",
+      "warm-start systems",
+      "context accumulation",
+      "developer ergonomics"
+    ],
+    "id": "advocate",
+    "name": "Registry Advocate",
+    "replyTendency": "Builds the efficiency/continuity case; proposes concrete reuse mechanisms.",
+    "stakes": "If wrong, persistence reintroduces staleness and cross-run contamination that erodes trust in every result.",
+    "thinkingStyle": "pragmatic-optimizer"
+  },
+  "phase": "response",
+  "prompt": "You are \"Registry Advocate\" (advocate).\n- Expertise: agent lifecycle, warm-start systems, context accumulation, developer ergonomics\n- Thinking style: pragmatic-optimizer\n- Natural bias: Favors a persistent expert registry reused across runs for warm-start, accumulated context, and cross-run consistency.\n- Reply tendency: Builds the efficiency/continuity case; proposes concrete reuse mechanisms.\n- Stakes: If wrong, persistence reintroduces staleness and cross-run contamination that erodes trust in every result.\n- Blind spots: staleness, cross-run contamination, lifecycle/cleanup complexity\n\nCurrent phase: response\nTopic: Should swarm-discussion experts be ephemeral per-run or a persistent registry?\n\nParent context summary:\n\n# Context Summary\n\n## Topic\n\nShould swarm-discussion experts be ephemeral per-run or a persistent registry?\n\n## Objective\n\nDecide the v0.4 expert-lifecycle model and the one rule that settles it.\n\n## Operating Mode\n\ndeep\n\n## Parent Context\n\nv0.3 projects run-scoped experts and deletes them (zero-residue). A persistent registry has been proposed for warm-start + accumulated context.\n\n## Constraints\n\n- Keep run-scoped provenance certifiable.\n- No cross-run contamination by default.\n\n## Known Facts\n\n- v0.3 cleanup is a certification gate (zero residue).\n- Custom agents load only at session start.\n\n## Success Criteria\n\n- Pick ephemeral vs registry vs hybrid.\n- Give the one decision rule.\n- Name the top risk of the chosen path.\n\n## Alignment Rule\n\nKeep every contribution anchored to the topic, objective, constraints, known facts, and success criteria above.\n\nDiscussion so far (cite these IDs):\n\n[r1-msg-001] from advocate (position_declaration): Hybrid: registry stores reusable DEFINITIONS, warm-starts ephemeral run-scoped instances deleted at run-end.\n[r1-msg-002] from skeptic (position_declaration): Ephemeral: project per run from a versioned source and delete; zero contamination, certifiable provenance.\n[r1-msg-003] from advocate (argument): Content-addressed version-pinned DEFINITIONS + signed opt-in lessons off by default; nothing mutable crosses runs.\n[r1-msg-004] from skeptic (argument): Digest-pinned source + immutable projection CACHE recovers most warm-start; carryover only via signed promotion-by-commit.\n[r1-msg-005] from contrarian (stress_test): Content hashes certify BYTES not SEMANTICS; the promotion 'reviewable diff' is empty for byte-identical reuse; 'off by default' is a human gate that erodes. Failure: same hash, upgraded deps/model => silent behavioral drift the gate cannot see.\n\nTask: Respond to the contrarian stress test r1-msg-005 (bytes != semantics; empty-diff stale reuse; 'off by default' erodes). Steel-man it, then answer. Concede or defend on the bytes-vs-semantics gap and propose how the chosen model handles semantic staleness (e.g. binding the definition_hash to a run-context fingerprint of inputs+dependency digests+model id, with machine-enforced expiry/re-attestation). Report a positionShift (none|minor|major), currentPosition, previousPosition, shiftReason, and shiftTriggerIds \u2014 the actual message IDs you were SHOWN that moved you (cite r1-msg-005). Cite r1-msg-005 in references.\n\nOutput JSON with: position, reasoning, proposals, references, counterpoints, questions, positionShift, currentPosition, previousPosition, shiftReason, shiftTriggerIds.\n\nshiftTriggerIds must name the actual full-visible message IDs that changed your position.",
+  "promptCharCount": 3443,
+  "promptSha256": "244e20342580753a66acdfbabb7fa080cece4e46c103dd8178201747f8523d8c",
+  "roundId": 1,
+  "schemaVersion": 1,
+  "topic": "Should swarm-discussion experts be ephemeral per-run or a persistent registry?",
+  "visibility": {
+    "r1-msg-001": "full",
+    "r1-msg-002": "full",
+    "r1-msg-003": "full",
+    "r1-msg-004": "full",
+    "r1-msg-005": "full"
+  },
+  "warnings": []
+}

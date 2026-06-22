@@ -1,0 +1,112 @@
+{
+  "complete": true,
+  "errors": [],
+  "missingAgentIds": [],
+  "missingPersonas": [],
+  "ok": true,
+  "receivedAgentIds": [
+    "swarm-stressbg1-advocate",
+    "swarm-stressbg1-skeptic"
+  ],
+  "requiredAgentIds": [
+    "swarm-stressbg1-advocate",
+    "swarm-stressbg1-skeptic"
+  ],
+  "results": [
+    {
+      "agentDescriptor": {
+        "agentType": "swarm-stressbg1-advocate",
+        "invocationForm": "explicit_spawn",
+        "projectedName": "swarm-stressbg1-advocate",
+        "projectedPath": ".claude/agents/swarm-stressbg1-advocate.md",
+        "projectedSha256": "a12f9c81877f4feea282c0416dd7995304babcaa84cfcc27a29e771490d8afb4",
+        "promptRef": "prompts/r001/response/advocate/prompt.txt"
+      },
+      "agentId": "swarm-stressbg1-advocate",
+      "persona": "advocate",
+      "result": {
+        "currentPosition": "Hybrid registry with content-addressed definitions, but reuse keyed on a machine-enforced run-context fingerprint with TTL/re-attestation that fails closed on drift; human opt-in carryover removed.",
+        "position": "Hybrid registry remains correct, but content-addressing must bind DEFINITION bytes to a run-context fingerprint (inputs + dependency digests + model id) with machine-enforced expiry and fail-closed re-attestation; bytes alone are necessary but not sufficient for semantic identity.",
+        "positionShift": "minor",
+        "previousPosition": "Hybrid registry with content-addressed version-pinned definitions plus signed opt-in lessons off by default, treating nothing-mutable-crosses-runs as sufficient.",
+        "proposals": [
+          "Effective identity = H(definition_hash || sorted(dependency_digests) || model_id || input_schema_digest); cache/warm-start key on this composite.",
+          "Machine-enforced expiry/re-attestation: each cached projection carries a TTL+fingerprint; on mismatch/expiry the run fails CLOSED and re-projects.",
+          "Replace the empty byte-diff with a behavioral attestation: a small frozen probe set hashed into the fingerprint.",
+          "Carryover ONLY as signed promotion-by-commit folded into the fingerprinted source digest; drop the 'off by default' human opt-in."
+        ],
+        "reasoning": "Conceding r1-msg-005: a content hash (r1-msg-003) certifies bytes not behavior; byte-identical reuse under upgraded deps/model drifts silently and the promotion diff is empty, while 'off by default' is an erodable human gate. The fix is to widen the identity unit: pin definition_hash into a composite run-context fingerprint so any dep/model/input change mints a NEW effective identity, forcing re-projection or re-attestation. This converts the human gate into a machine gate and keeps warm-start while closing the semantic-staleness hole.",
+        "references": [
+          {
+            "comment": "Concede: hashes certify bytes not semantics; the byte-identical promotion diff is empty; 'off by default' erodes.",
+            "relation": "supports",
+            "targetId": "r1-msg-005"
+          },
+          {
+            "comment": "Promotion-by-commit becomes the SOLE carryover path, folded into the fingerprinted source digest.",
+            "relation": "extends",
+            "targetId": "r1-msg-004"
+          },
+          {
+            "comment": "Zero-residue inspects carried state and cannot detect drift where state is unchanged but deps/model moved.",
+            "relation": "questions",
+            "targetId": "r1-msg-002"
+          }
+        ],
+        "shiftReason": "r1-msg-005 showed byte-level content addressing + the zero-residue gate cannot detect semantic drift when deps/model change beneath a stable hash, and that 'off by default' is erodable; I moved from byte-identity + human opt-in to composite fingerprint identity + machine-enforced fail-closed re-attestation.",
+        "shiftTriggerIds": [
+          "r1-msg-005",
+          "r1-msg-004"
+        ]
+      }
+    },
+    {
+      "agentDescriptor": {
+        "agentType": "swarm-stressbg1-skeptic",
+        "invocationForm": "explicit_spawn",
+        "projectedName": "swarm-stressbg1-skeptic",
+        "projectedPath": ".claude/agents/swarm-stressbg1-skeptic.md",
+        "projectedSha256": "7b88f39364f04b9d41f983498986e91b025b4b243e1cd81daea3d68853f9c3ab",
+        "promptRef": "prompts/r001/response/skeptic/prompt.txt"
+      },
+      "agentId": "swarm-stressbg1-skeptic",
+      "persona": "skeptic",
+      "result": {
+        "currentPosition": "Ephemeral per-run experts with the certified claim narrowed to zero-byte-residue + run-scoped provenance; reuse bound to a run-context fingerprint and failing closed on drift even when the content hash is unchanged.",
+        "position": "Ephemeral per-run experts remain correct, but the honest claim narrows to what the runtime can certify: zero BYTE residue + run-scoped provenance \u2014 never 'zero semantic contamination.' The rule certifies only what the runtime can see and binds every reuse to a run-context fingerprint, failing closed on drift even when the content hash is unchanged.",
+        "positionShift": "minor",
+        "previousPosition": "Ephemeral projection from a digest-pinned source with an immutable projection cache recovering warm-start, treating content-hash identity as sufficient for safe reuse and zero contamination.",
+        "proposals": [
+          "Narrow the certified claim to 'zero BYTE residue + run-scoped provenance'; disclaim 'zero semantic contamination' as outside runtime attestation.",
+          "run-context fingerprint = hash(input slice IDs + dependency digests + model id + projection-source digest); reuse valid ONLY when the fingerprint matches.",
+          "Fail closed on any fingerprint mismatch: deps/model changed but content hash identical => invalidate and re-project cold.",
+          "Replace 'off by default' human gate with a machine gate: carryover requires a fingerprint-bound promotion record; empty diff under a changed fingerprint is auto-rejected.",
+          "Emit the fingerprint as run-scoped provenance so audits distinguish byte-identity from behavioral-identity."
+        ],
+        "reasoning": "r1-msg-005 lands: content hashes certify bytes not semantics, byte-identical reuse under upgraded deps/model drifts silently, the reviewable diff is empty, and 'off by default' erodes. I accept the narrowing rather than defend an overclaim. Ephemerality still guarantees no MUTABLE state crosses runs and gives run-scoped provenance the runtime can attest, but it never promised semantic invariance. Make the runtime's observable signal the binding key: certify byte residue + projection lineage, and treat anything unobservable (semantics under changed deps/model) as a drift risk that must fail closed.",
+        "references": [
+          {
+            "comment": "Accepts the byte-vs-semantics gap; converts silent drift into a fail-closed event keyed on a run-context fingerprint.",
+            "relation": "extends",
+            "targetId": "r1-msg-005"
+          },
+          {
+            "comment": "My earlier 'immutable projection cache recovers warm-start' was too strong: cache validity must key on the full fingerprint, not the source digest alone.",
+            "relation": "counters",
+            "targetId": "r1-msg-004"
+          },
+          {
+            "comment": "Keeps ephemeral projection + zero contamination, but restates the guarantee as byte-residue + provenance rather than semantic.",
+            "relation": "extends",
+            "targetId": "r1-msg-002"
+          }
+        ],
+        "shiftReason": "r1-msg-005 showed content hashes certify bytes not semantics, byte-identical reuse yields an empty promotion diff, and 'off by default' is an eroding gate \u2014 so hash-identity is not a safe reuse certificate. I narrowed the honest claim and re-keyed reuse on a full run-context fingerprint that fails closed on drift the hash cannot see.",
+        "shiftTriggerIds": [
+          "r1-msg-005"
+        ]
+      }
+    }
+  ],
+  "timedOut": false
+}

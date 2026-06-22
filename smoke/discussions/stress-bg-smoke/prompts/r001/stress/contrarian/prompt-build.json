@@ -1,0 +1,39 @@
+{
+  "contextSummaryCharCount": 864,
+  "errors": [],
+  "injectedIds": [
+    "r1-msg-001",
+    "r1-msg-002",
+    "r1-msg-003",
+    "r1-msg-004"
+  ],
+  "inputs": {
+    "contextSummarySha256": "6d2a49da893656e39e04788e7803f46d540cda07c6685ed2cd4b8d70cef9c0b2",
+    "messageCount": 4,
+    "visibilityBudget": 100000
+  },
+  "ok": true,
+  "outputContract": {
+    "format": "json",
+    "requiresReferences": true,
+    "role": "contrarian"
+  },
+  "persona": {
+    "id": "contrarian",
+    "name": "contrarian"
+  },
+  "phase": "contrarian",
+  "prompt": "You are the Contrarian. Target the strongest consensus, not the weakest argument.\n\nTopic: Should swarm-discussion experts be ephemeral per-run or a persistent registry?\n\nParent context summary:\n\n# Context Summary\n\n## Topic\n\nShould swarm-discussion experts be ephemeral per-run or a persistent registry?\n\n## Objective\n\nDecide the v0.4 expert-lifecycle model and the one rule that settles it.\n\n## Operating Mode\n\ndeep\n\n## Parent Context\n\nv0.3 projects run-scoped experts and deletes them (zero-residue). A persistent registry has been proposed for warm-start + accumulated context.\n\n## Constraints\n\n- Keep run-scoped provenance certifiable.\n- No cross-run contamination by default.\n\n## Known Facts\n\n- v0.3 cleanup is a certification gate (zero residue).\n- Custom agents load only at session start.\n\n## Success Criteria\n\n- Pick ephemeral vs registry vs hybrid.\n- Give the one decision rule.\n- Name the top risk of the chosen path.\n\n## Alignment Rule\n\nKeep every contribution anchored to the topic, objective, constraints, known facts, and success criteria above.\n\nDiscussion so far:\n\n[r1-msg-001] from advocate (position_declaration): Hybrid: registry stores reusable DEFINITIONS, warm-starts ephemeral run-scoped instances deleted at run-end.\n[r1-msg-002] from skeptic (position_declaration): Ephemeral: project experts per run from a versioned source and delete them; zero cross-run contamination, certifiable provenance.\n[r1-msg-003] from advocate (argument): Content-addressed, version-pinned DEFINITIONS + signed opt-in lessons (off by default); nothing mutable crosses runs; provenance records definition_hash.\n[r1-msg-004] from skeptic (argument): Digest-pinned source + immutable projection CACHE recovers most warm-start; accumulated context only via explicit signed promotion-by-commit (reviewable diff).\n\nReference messages by ID. Output structured JSON for the runtime.",
+  "promptCharCount": 1878,
+  "promptSha256": "ac8b8cace8792590c6f4d171f9430a7fb973672d7c073c4d4d0781bce6d0b84a",
+  "roundId": 1,
+  "schemaVersion": 1,
+  "topic": "Should swarm-discussion experts be ephemeral per-run or a persistent registry?",
+  "visibility": {
+    "r1-msg-001": "full",
+    "r1-msg-002": "full",
+    "r1-msg-003": "full",
+    "r1-msg-004": "full"
+  },
+  "warnings": []
+}

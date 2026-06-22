@@ -1,0 +1,112 @@
+{
+  "complete": true,
+  "errors": [],
+  "missingAgentIds": [],
+  "missingPersonas": [],
+  "ok": true,
+  "receivedAgentIds": [
+    "swarm-stressbg1-advocate",
+    "swarm-stressbg1-skeptic"
+  ],
+  "requiredAgentIds": [
+    "swarm-stressbg1-advocate",
+    "swarm-stressbg1-skeptic"
+  ],
+  "results": [
+    {
+      "agentDescriptor": {
+        "agentType": "swarm-stressbg1-advocate",
+        "invocationForm": "explicit_spawn",
+        "projectedName": "swarm-stressbg1-advocate",
+        "projectedPath": ".claude/agents/swarm-stressbg1-advocate.md",
+        "projectedSha256": "a12f9c81877f4feea282c0416dd7995304babcaa84cfcc27a29e771490d8afb4",
+        "promptRef": "prompts/r001/argument/advocate/prompt.txt"
+      },
+      "agentId": "swarm-stressbg1-advocate",
+      "persona": "advocate",
+      "result": {
+        "counterpoints": [
+          "Staleness: pinned definition can encode outdated assumptions -> TTL + supersedes, force-pin is recorded.",
+          "Contamination via lessons -> separate signed artifact, off by default, consumed only by explicit recorded hash pin.",
+          "Lifecycle/GC complexity -> keep gate at instance deletion; registry GC offline, removes only unreferenced hashes."
+        ],
+        "position": "Hybrid: a persistent registry stores reusable, content-addressed, version-pinned expert DEFINITIONS only; each run warm-starts ephemeral, run-scoped INSTANCES deleted at run-end, preserving the zero-residue gate.",
+        "proposals": [
+          "Two-layer model: REGISTRY holds only DEFINITIONS; RUNTIME instantiates ephemeral run-scoped INSTANCES deleted at run-end; the zero-residue gate runs unchanged on instances.",
+          "Content-addressed definitions: identity = hash(content); run provenance records definition_hash per expert.",
+          "Version-pinning: a run pins an explicit hash; no silent upgrades; promotion is a separate reviewable event.",
+          "Signed opt-in lessons artifact for cross-run context, OFF by default; no lessons => behavior identical to pure ephemeral.",
+          "Staleness controls: TTL + supersedes pointer; expired hashes refused unless force-pinned.",
+          "Cleanup contract: instance deletion stays the gate; registry GC only removes UNREFERENCED hashes."
+        ],
+        "questions": [
+          "Does the zero-residue check assert on instance artifacts only, or would any persisted definition hash on disk fail the gate?",
+          "Is the ephemeral plan's 'versioned source' content-addressed, or can a tag resolve to different bytes over time?"
+        ],
+        "reasoning": "Ephemeral conflates the DEFINITION of an expert (instructions/role/tools/slice \u2014 the expensive, slow-to-stabilize artifact) with the INSTANCE (cheap, must-be-clean). Throwing away definition stability to get instance cleanliness is a false trade. Since custom agents load only at session start, the registry is a build-time input, not a live shared object: instances still spin up fresh and die. Content-addressing makes definition identity = its bytes, so a run records exactly which hash it used \u2014 provenance gets STRONGER than free-form per-run projection whose 'versioned source' can drift silently. Nothing mutable crosses runs: definitions immutable-by-hash, instances deleted, learning only via explicit signed opt-in artifact.",
+        "references": [
+          {
+            "comment": "Steel-man then counter: ephemeral conflates DEFINITION with INSTANCE; persisting only immutable hashed definitions adds warm-start without mutable cross-run state.",
+            "relation": "counters",
+            "targetId": "r1-msg-002"
+          },
+          {
+            "comment": "Extends my declaration with the concrete content-addressed + signed-opt-in-lessons mechanism.",
+            "relation": "extends",
+            "targetId": "r1-msg-001"
+          }
+        ]
+      }
+    },
+    {
+      "agentDescriptor": {
+        "agentType": "swarm-stressbg1-skeptic",
+        "invocationForm": "explicit_spawn",
+        "projectedName": "swarm-stressbg1-skeptic",
+        "projectedPath": ".claude/agents/swarm-stressbg1-skeptic.md",
+        "projectedSha256": "7b88f39364f04b9d41f983498986e91b025b4b243e1cd81daea3d68853f9c3ab",
+        "promptRef": "prompts/r001/argument/skeptic/prompt.txt"
+      },
+      "agentId": "swarm-stressbg1-skeptic",
+      "persona": "skeptic",
+      "result": {
+        "counterpoints": [
+          "Cold-start latency is the strongest hit against ephemeral; mitigated (not eliminated) by a digest-keyed cache (cold only on first-seen digest).",
+          "Losing accumulated context is real; answer is explicit signed promotion to the source, which costs ceremony.",
+          "A digest-keyed cache is infrastructure; must be strictly reconstructible and untrusted unless the digest matches."
+        ],
+        "position": "Ephemeral per-run experts: deterministically project each expert from a versioned, content-addressed source at run-start and delete at run-end. Zero cross-run contamination by default, trivial lifecycle, fully certifiable run-scoped provenance.",
+        "proposals": [
+          "Ephemeral per-run experts as default: project at run-start from a content-addressed source pinned by digest; delete instances at run-end.",
+          "Replace 'persistent registry' with an immutable, digest-keyed projection CACHE: warm-start = cache hit on unchanged source digest; miss => deterministic reprojection.",
+          "Promotion-by-commit: any 'learned' improvement is an explicit signed versioned change to the source producing a reviewable provenance diff.",
+          "Certification scope check: require the gate to attest the SOURCE DIGEST consumed per run.",
+          "Adopt the definition/instance split only if every definition is immutable and content-addressed; reject any mutating definition layer."
+        ],
+        "questions": [
+          "Given agents load only at session start, does a registry deliver intra-session warm-start a content-addressed cache does not?",
+          "Can the hybrid produce a per-run attestation that definitions were byte-identical to a prior certified run without reducing the registry to a content-addressed store (i.e. to my position)?"
+        ],
+        "reasoning": "Steel-man: the hybrid (r1-msg-001) is the strongest opposing design; the definition/instance split is real and warm-start value is real. Counter: certification is about what the gate can SEE and ATTEST. The moment ANY definition persists across runs you introduce mutable cross-run state with three failure surfaces the run-scoped gate cannot observe: (1) staleness drift \u2014 a definition edited/auto-updated between runs makes run N+5 silently differ from run N; (2) contamination via the definition channel \u2014 'definitions' is exactly where accumulated context leaks, so residue just moves from the instance layer the gate certifies to the definition layer it does not; (3) supply-chain \u2014 a long-lived mutable registry is a higher-value, longer-exposure target. Decisive point: deterministic projection from a digest-pinned source plus an immutable projection CACHE already buys most warm-start benefit \u2014 a hash-addressed cache is reconstructible and self-certifying. Valuable accumulated context must be promoted by an explicit signed commit to the source (a reviewable diff), not absorbed silently.",
+        "references": [
+          {
+            "comment": "Concede the split and warm-start value, but the persisted DEFINITION layer is mutable cross-run state the gate cannot see; its zero-residue claim covers instance deletion, not definition drift.",
+            "relation": "counters",
+            "targetId": "r1-msg-001"
+          },
+          {
+            "comment": "How does the gate certify a definition was unchanged since the last attested run without re-deriving its digest?",
+            "relation": "questions",
+            "targetId": "r1-msg-001"
+          },
+          {
+            "comment": "Extends the ephemeral position: digest-pinned source + immutable projection cache recovers most warm-start latency without a mutable persisted layer.",
+            "relation": "extends",
+            "targetId": "r1-msg-002"
+          }
+        ]
+      }
+    }
+  ],
+  "timedOut": false
+}

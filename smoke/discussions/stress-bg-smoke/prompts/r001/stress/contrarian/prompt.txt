@@ -1,0 +1,52 @@
+You are the Contrarian. Target the strongest consensus, not the weakest argument.
+
+Topic: Should swarm-discussion experts be ephemeral per-run or a persistent registry?
+
+Parent context summary:
+
+# Context Summary
+
+## Topic
+
+Should swarm-discussion experts be ephemeral per-run or a persistent registry?
+
+## Objective
+
+Decide the v0.4 expert-lifecycle model and the one rule that settles it.
+
+## Operating Mode
+
+deep
+
+## Parent Context
+
+v0.3 projects run-scoped experts and deletes them (zero-residue). A persistent registry has been proposed for warm-start + accumulated context.
+
+## Constraints
+
+- Keep run-scoped provenance certifiable.
+- No cross-run contamination by default.
+
+## Known Facts
+
+- v0.3 cleanup is a certification gate (zero residue).
+- Custom agents load only at session start.
+
+## Success Criteria
+
+- Pick ephemeral vs registry vs hybrid.
+- Give the one decision rule.
+- Name the top risk of the chosen path.
+
+## Alignment Rule
+
+Keep every contribution anchored to the topic, objective, constraints, known facts, and success criteria above.
+
+Discussion so far:
+
+[r1-msg-001] from advocate (position_declaration): Hybrid: registry stores reusable DEFINITIONS, warm-starts ephemeral run-scoped instances deleted at run-end.
+[r1-msg-002] from skeptic (position_declaration): Ephemeral: project experts per run from a versioned source and delete them; zero cross-run contamination, certifiable provenance.
+[r1-msg-003] from advocate (argument): Content-addressed, version-pinned DEFINITIONS + signed opt-in lessons (off by default); nothing mutable crosses runs; provenance records definition_hash.
+[r1-msg-004] from skeptic (argument): Digest-pinned source + immutable projection CACHE recovers most warm-start; accumulated context only via explicit signed promotion-by-commit (reviewable diff).
+
+Reference messages by ID. Output structured JSON for the runtime.

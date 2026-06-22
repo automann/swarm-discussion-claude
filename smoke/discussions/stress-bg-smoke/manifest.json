@@ -1,0 +1,10 @@
+{
+  "createdAt": "2026-06-22T20:43:59Z",
+  "currentPhase": "synthesis",
+  "currentRound": 1,
+  "id": "stress-bg-smoke",
+  "mode": "deep",
+  "schemaVersion": 1,
+  "status": "completed",
+  "stressPolicy": "required"
+}

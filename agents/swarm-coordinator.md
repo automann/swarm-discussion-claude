@@ -48,6 +48,9 @@ is in `$PROTO/README.md`.
   `append-message`, `checkpoint`, `finalize-round` own WAL state.
 - Do NOT create, edit, or delete `.claude/agents/*` files — the parent owns the
   projected-file lifecycle. You only spawn the agents it already projected.
+- Do NOT finalize the projection manifest: write `deletionStatus: "pending"` and leave it.
+  The parent sets it to `clean` AFTER it deletes the files — claiming `clean` while the
+  files still exist is a false manifest.
 - Spawn each expert by its exact `projectedName` with the `prompt-build` output as
   the prompt — a CONCRETE, bounded, role-specific task. Never a self-replicating or
   "spawn more agents" prompt. Experts are no-tools leaves; never grant them `Agent`.
@@ -149,9 +152,10 @@ Drive these phases IN ORDER, each via the per-phase mechanics below:
   `completed` (required for `trace` `nextAction: none` / health `on-track`).
 - `$RT trace --dir <discussionDir> --output <discussionDir>/artifacts/trace.json`
 - `$RT evidence --dir <discussionDir> --output <discussionDir>/artifacts/evidence.json`
-- `$RT validate-loop <discussionDir> --require-projection --require-stress` — must be `ok`
-  (enforces the projected-provenance gate and, when `stressPolicy != off`, the debate-depth
-  gate).
+- `$RT validate-loop <discussionDir> --require-stress` — must be `ok`. The projected-provenance
+  *consistency* checks fire automatically (the phases declare projection); the terminal-cleanup
+  gate (`deletionStatus: clean`) is the PARENT's `certify_adapter --require-projection` AFTER it
+  cleans up — do NOT add `--require-projection` here while the manifest is still `pending`.
 
 ## Return value
 

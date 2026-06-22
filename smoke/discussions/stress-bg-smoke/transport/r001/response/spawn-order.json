@@ -1,0 +1,26 @@
+[
+  {
+    "agentDescriptor": {
+      "agentType": "swarm-stressbg1-advocate",
+      "invocationForm": "explicit_spawn",
+      "projectedName": "swarm-stressbg1-advocate",
+      "projectedPath": ".claude/agents/swarm-stressbg1-advocate.md",
+      "projectedSha256": "a12f9c81877f4feea282c0416dd7995304babcaa84cfcc27a29e771490d8afb4",
+      "promptRef": "prompts/r001/response/advocate/prompt.txt"
+    },
+    "agentId": "swarm-stressbg1-advocate",
+    "persona": "advocate"
+  },
+  {
+    "agentDescriptor": {
+      "agentType": "swarm-stressbg1-skeptic",
+      "invocationForm": "explicit_spawn",
+      "projectedName": "swarm-stressbg1-skeptic",
+      "projectedPath": ".claude/agents/swarm-stressbg1-skeptic.md",
+      "projectedSha256": "7b88f39364f04b9d41f983498986e91b025b4b243e1cd81daea3d68853f9c3ab",
+      "promptRef": "prompts/r001/response/skeptic/prompt.txt"
+    },
+    "agentId": "swarm-stressbg1-skeptic",
+    "persona": "skeptic"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "agentDescriptor": {
+      "agentType": "swarm-stressbg1-skeptic",
+      "invocationForm": "explicit_spawn",
+      "projectedName": "swarm-stressbg1-skeptic",
+      "projectedPath": ".claude/agents/swarm-stressbg1-skeptic.md",
+      "projectedSha256": "7b88f39364f04b9d41f983498986e91b025b4b243e1cd81daea3d68853f9c3ab",
+      "promptRef": "prompts/r001/stress/contrarian/prompt.txt"
+    },
+    "agentId": "swarm-stressbg1-skeptic",
+    "persona": "contrarian"
+  }
+]

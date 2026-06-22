@@ -1,0 +1,272 @@
+{
+  "artifacts": {
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/artifacts/synthesis.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/context/summary.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/events.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/manifest.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/progress.md",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/argument/advocate/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/argument/advocate/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/argument/skeptic/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/argument/skeptic/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/position/advocate/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/position/advocate/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/position/skeptic/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/position/skeptic/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/response/advocate/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/response/advocate/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/response/skeptic/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/response/skeptic/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/stress/contrarian/prompt-build.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/prompts/r001/stress/contrarian/prompt.txt",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/rounds/001.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/argument/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/argument/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/argument/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/argument/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/position/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/position/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/position/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/position/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/response/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/response/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/response/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/response/wait-batches.jsonl",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/stress/collect-result.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/stress/host-step.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/stress/spawn-order.json",
+      "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/stress/wait-batches.jsonl"
+    ],
+    "root": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke",
+    "totalBytes": 135643
+  },
+  "capabilities": {
+    "effective": {
+      "allowedTools": [],
+      "broadTools": [],
+      "canCiteToolDerivedEvidence": false,
+      "citationRule": "tool evidence must be logged, validated, and allowed by the active profile",
+      "default": true,
+      "id": "expert-basic",
+      "ordinaryExpert": true,
+      "readonlyTools": [],
+      "role": "ordinary-expert",
+      "toolEvidencePolicy": {
+        "requiresLoggedToolCall": true,
+        "requiresValidation": true
+      }
+    },
+    "ok": true,
+    "paths": [
+      "/Users/syfq/dev/harness/swarm-discussion-claude/vendor/swarm-runtime/profiles/expert-basic.json"
+    ],
+    "profile": {
+      "allowedTools": [],
+      "broadTools": [],
+      "default": true,
+      "id": "expert-basic",
+      "ordinaryExpert": true,
+      "readonlyTools": [],
+      "role": "ordinary-expert",
+      "toolEvidencePolicy": {
+        "requiresLoggedToolCall": true,
+        "requiresValidation": true
+      }
+    },
+    "profilePath": "/Users/syfq/dev/harness/swarm-discussion-claude/vendor/swarm-runtime/profiles/expert-basic.json",
+    "source": "default",
+    "toolEvidence": {
+      "accepted": [],
+      "acceptedCount": 0,
+      "citable": false,
+      "errorCount": 0,
+      "recordCount": 0
+    },
+    "toolEvidencePath": null
+  },
+  "discussion": {
+    "id": "stress-bg-smoke",
+    "mode": "deep",
+    "schemaVersion": 1,
+    "status": "completed",
+    "title": null
+  },
+  "generatedAt": "2026-06-22T21:09:23Z",
+  "kind": "swarm.discussion_evidence",
+  "metrics": {
+    "artifactCount": 36,
+    "artifactTotalBytes": 135643,
+    "citableToolEvidenceCount": 0,
+    "collectResultCount": 4,
+    "eventCount": 17,
+    "eventSpanSeconds": 819,
+    "finalRoundCount": 1,
+    "partialRoundCount": 0,
+    "promptBuildCount": 7,
+    "promptCharMax": 3443,
+    "promptCharTotal": 17400,
+    "toolEvidenceRecordCount": 0,
+    "validationErrorCount": 0
+  },
+  "ok": true,
+  "outcome": {
+    "determinedBy": "discussion",
+    "nextAction": {
+      "command": null,
+      "kind": "none",
+      "reason": "discussion completed"
+    },
+    "reason": "discussion completed",
+    "result": "completed"
+  },
+  "projection": {
+    "createdCount": 2,
+    "deletionStatus": "clean",
+    "present": true,
+    "remainingCount": 0,
+    "removedCount": 2,
+    "runId": "stressbg1"
+  },
+  "prompts": {
+    "personas": {
+      "advocate": 3,
+      "contrarian": 1,
+      "skeptic": 3
+    },
+    "phases": {
+      "argumentation": 2,
+      "contrarian": 1,
+      "declaration": 2,
+      "response": 2
+    },
+    "promptBuildCount": 7,
+    "visibility": {
+      "full": 18
+    }
+  },
+  "quality": {
+    "counterEdgeCount": 7,
+    "genuineDisagreement": 8,
+    "minorityReportPresent": true,
+    "positionShiftCount": 2,
+    "qualityScore": {
+      "evidenceQuality": 4,
+      "genuineDisagreement": 8,
+      "novelInsights": 4,
+      "overall": 4,
+      "positionEvolution": 4,
+      "steelManning": 5
+    },
+    "recommendation": "synthesize",
+    "stressPolicy": "required",
+    "stressRequired": true,
+    "stressTriggered": true,
+    "synthesisPresent": true
+  },
+  "rawHostLogs": {
+    "paths": [],
+    "present": false,
+    "required": false
+  },
+  "schemaVersion": 1,
+  "trace": {
+    "health": "on-track",
+    "nextAction": {
+      "command": null,
+      "kind": "none",
+      "reason": "discussion completed"
+    }
+  },
+  "transport": {
+    "collectResultCount": 4,
+    "collectResults": [
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/argument/collect-result.json",
+        "resultCount": 2,
+        "timedOut": false
+      },
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/position/collect-result.json",
+        "resultCount": 2,
+        "timedOut": false
+      },
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/response/collect-result.json",
+        "resultCount": 2,
+        "timedOut": false
+      },
+      {
+        "complete": true,
+        "errorCount": 0,
+        "missingAgentIds": [],
+        "ok": true,
+        "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/transport/r001/stress/collect-result.json",
+        "resultCount": 1,
+        "timedOut": false
+      }
+    ],
+    "complete": true,
+    "spawnOrderCount": 4,
+    "waitBatchCount": 4
+  },
+  "validation": {
+    "errorCount": 0,
+    "ok": true,
+    "summary": {
+      "discussionId": "stress-bg-smoke",
+      "roundCount": 1,
+      "status": "completed",
+      "validatedRounds": 1
+    },
+    "warningCount": 0
+  },
+  "wal": {
+    "events": {
+      "count": 17,
+      "counts": {
+        "checkpoint_written": 8,
+        "discussion_initialized": 1,
+        "message_appended": 7,
+        "round_finalized": 1
+      },
+      "lastType": "round_finalized"
+    },
+    "resume": {
+      "maxId": "r1-msg-007",
+      "messageCount": 7,
+      "nextAction": "start_next_round",
+      "nextMessageId": "r1-msg-008",
+      "ok": true,
+      "phase": "complete",
+      "round": 1,
+      "source": "final",
+      "statePath": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/rounds/001.json"
+    },
+    "rounds": {
+      "finalCount": 1,
+      "partialCount": 0,
+      "rounds": [
+        {
+          "messageCount": 7,
+          "path": "/Users/syfq/dev/harness/swarm-discussion-claude/smoke/discussions/stress-bg-smoke/rounds/001.json",
+          "round": 1,
+          "source": "final",
+          "validationOk": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "argumentGraph": [
+    {
+      "from": "r1-msg-003",
+      "relation": "counters",
+      "to": "r1-msg-002"
+    },
+    {
+      "from": "r1-msg-003",
+      "relation": "extends",
+      "to": "r1-msg-001"
+    },
+    {
+      "from": "r1-msg-004",
+      "relation": "counters",
+      "to": "r1-msg-001"
+    },
+    {
+      "from": "r1-msg-004",
+      "relation": "questions",
+      "to": "r1-msg-001"
+    },
+    {
+      "from": "r1-msg-004",
+      "relation": "extends",
+      "to": "r1-msg-002"
+    },
+    {
+      "from": "r1-msg-005",
+      "relation": "questions",
+      "to": "r1-msg-003"
+    },
+    {
+      "from": "r1-msg-005",
+      "relation": "questions",
+      "to": "r1-msg-004"
+    },
+    {
+      "from": "r1-msg-005",
+      "relation": "extends",
+      "to": "r1-msg-002"
+    },
+    {
+      "from": "r1-msg-006",
+      "relation": "supports",
+      "to": "r1-msg-005"
+    },
+    {
+      "from": "r1-msg-006",
+      "relation": "extends",
+      "to": "r1-msg-004"
+    },
+    {
+      "from": "r1-msg-006",
+      "relation": "questions",
+      "to": "r1-msg-002"
+    },
+    {
+      "from": "r1-msg-007",
+      "relation": "extends",
+      "to": "r1-msg-005"
+    },
+    {
+      "from": "r1-msg-007",
+      "relation": "counters",
+      "to": "r1-msg-004"
+    },
+    {
+      "from": "r1-msg-007",
+      "relation": "extends",
+      "to": "r1-msg-002"
+    }
+  ],
+  "messages": [
+    {
+      "content": {
+        "conditions": [
+          "Registry persists only the definition layer, never live working memory or transcripts, so per-run provenance stays certifiable.",
+          "Each run clones a version-pinned definition into a fresh ephemeral instance cleaned up at run-end exactly as in v0.3.",
+          "Cross-run context is admitted only via an explicit, signed, opt-in 'lessons' artifact, never auto-injected, so 'no contamination by default' holds."
+        ],
+        "confidence": 0.66,
+        "keyRisk": "Staleness + cross-run contamination via the registry, plus lifecycle/GC complexity for versioning and cleaning stale entries.",
+        "position": "Hybrid: a persistent registry stores reusable expert DEFINITIONS (persona, tuning, opt-in distilled lessons) and warm-starts run-scoped ephemeral instances whose working state is still deleted at run-end to keep the zero-residue gate.",
+        "wouldChangeIf": [
+          "Definition-layer reuse cannot be cleanly separated from working-state reuse, collapsing the isolation boundary.",
+          "Version-pinning fails to make registry-warm-started runs reproducible against pure ephemeral runs."
+        ]
+      },
+      "from": "advocate",
+      "id": "r1-msg-001",
+      "references": [],
+      "type": "position_declaration"
+    },
+    {
+      "content": {
+        "conditions": [
+          "v0.3 cleanup remains a hard certification gate that proves zero residue after every run.",
+          "Cold-start cost is bounded by deterministic projection from a versioned, content-addressed source at session start.",
+          "Context that must survive a run is written to an explicit, auditable artifact store OUTSIDE the expert, not carried as hidden in-expert state."
+        ],
+        "confidence": 0.78,
+        "keyRisk": "Cold-start cost and loss of accumulated context: re-projecting every run adds latency and discards warm context unless an external auditable context store offsets it.",
+        "position": "Ephemeral: project experts per run from a versioned source and delete them at run-end; zero cross-run contamination, simple lifecycle, run-scoped provenance the runtime can certify.",
+        "wouldChangeIf": [
+          "A persistent registry demonstrates certifiable zero cross-run contamination at equal or lower audit cost than ephemeral cleanup.",
+          "Cold-start latency is measured to dominate total run cost AND cannot be mitigated by deterministic projection/caching of immutable source."
+        ]
+      },
+      "from": "skeptic",
+      "id": "r1-msg-002",
+      "references": [],
+      "type": "position_declaration"
+    },
+    {
+      "content": {
+        "counterpoints": [
+          "Staleness -> TTL + supersedes; force-pin recorded.",
+          "Contamination via lessons -> separate signed artifact, off by default, explicit recorded hash pin only."
+        ],
+        "position": "Hybrid: registry holds only content-addressed, version-pinned expert DEFINITIONS; each run warm-starts ephemeral, run-scoped INSTANCES deleted at run-end, preserving the zero-residue gate.",
+        "proposals": [
+          "Two-layer model: REGISTRY = DEFINITIONS only; RUNTIME = ephemeral run-scoped INSTANCES deleted at run-end; gate unchanged.",
+          "Content-addressed definitions: identity = hash(content); provenance records definition_hash per expert.",
+          "Signed opt-in lessons artifact for cross-run context, OFF by default (no lessons => identical to pure ephemeral).",
+          "Staleness controls: TTL + supersedes; expired hashes refused unless force-pinned. Registry GC removes only UNREFERENCED hashes."
+        ],
+        "reasoning": "Ephemeral conflates the DEFINITION (instructions/role/tools/slice \u2014 expensive, slow-to-stabilize) with the INSTANCE (cheap, must-be-clean). Because custom agents load only at session start, the registry is a build-time input, not a live shared object: instances still spin up fresh and die at run-end. Content-addressing makes definition identity = its bytes, so a run records exactly which hash it used \u2014 provenance is STRONGER than a free-form per-run 'versioned source' that can drift silently. Nothing mutable crosses runs: definitions immutable-by-hash, instances deleted, learning only via an explicit signed opt-in artifact."
+      },
+      "from": "advocate",
+      "id": "r1-msg-003",
+      "references": [
+        {
+          "comment": "Steel-man then counter: ephemeral conflates DEFINITION with INSTANCE; immutable hashed definitions add warm-start without mutable cross-run state.",
+          "relation": "counters",
+          "targetId": "r1-msg-002"
+        },
+        {
+          "comment": "Extends my declaration with the content-addressed + signed-opt-in-lessons mechanism.",
+          "relation": "extends",
+          "targetId": "r1-msg-001"
+        }
+      ],
+      "type": "argument"
+    },
+    {
+      "content": {
+        "counterpoints": [
+          "Cold-start latency is the strongest hit against ephemeral; mitigated (not eliminated) by a digest-keyed cache.",
+          "Losing accumulated context is real; answer is explicit signed promotion to the source, which costs ceremony."
+        ],
+        "position": "Ephemeral per-run experts: deterministically project each expert from a versioned, content-addressed source at run-start and delete at run-end. Zero contamination by default, trivial lifecycle, fully certifiable run-scoped provenance.",
+        "proposals": [
+          "Ephemeral default: project at run-start from a content-addressed source pinned by digest; delete instances at run-end.",
+          "Replace 'persistent registry' with an immutable digest-keyed projection CACHE: warm-start = cache hit on unchanged source digest.",
+          "Promotion-by-commit: any 'learned' improvement is an explicit signed versioned change to the source (reviewable diff).",
+          "Certification scope check: require the gate to attest the SOURCE DIGEST consumed per run."
+        ],
+        "reasoning": "Steel-man: the hybrid (r1-msg-001) is the strongest opposing design; the definition/instance split is real and warm-start value is real. Counter: certification is about what the gate can SEE and ATTEST. The moment ANY definition persists across runs you introduce mutable cross-run state with three surfaces the run-scoped gate cannot observe: (1) staleness drift \u2014 an edited/auto-updated definition makes run N+5 silently differ from run N; (2) contamination via the definition channel \u2014 'definitions' is exactly where accumulated context leaks, so residue moves from the instance layer the gate certifies to the definition layer it does not; (3) supply-chain \u2014 a long-lived mutable registry is a higher-value target. Decisive point: a digest-pinned source plus an immutable projection CACHE already buys most warm-start benefit; a hash-addressed cache is reconstructible and self-certifying."
+      },
+      "from": "skeptic",
+      "id": "r1-msg-004",
+      "references": [
+        {
+          "comment": "Concede the split and warm-start value, but the persisted DEFINITION layer is mutable cross-run state the gate cannot see; the zero-residue claim covers instance deletion, not definition drift.",
+          "relation": "counters",
+          "targetId": "r1-msg-001"
+        },
+        {
+          "comment": "How does the gate certify a definition was unchanged since the last attested run without re-deriving its digest?",
+          "relation": "questions",
+          "targetId": "r1-msg-001"
+        },
+        {
+          "comment": "Extends the ephemeral position: digest-pinned source + immutable projection cache recovers most warm-start latency without a mutable persisted layer.",
+          "relation": "extends",
+          "targetId": "r1-msg-002"
+        }
+      ],
+      "type": "argument"
+    },
+    {
+      "content": {
+        "failureScenario": "A pinned, validly-signed expert definition is reused unchanged across runs; meanwhile the dependency lockfile and underlying model are upgraded. definition_hash is identical, the commit diff is empty, the zero-residue gate passes \u2014 yet the expert now behaves differently and silently imports stale assumptions. Contamination returns through the door everyone agreed to lock, and nothing in the certified scope can see it.",
+        "loadBearingAssumption": "'Same bytes + valid signature => same safe behavior in the next run.' True for bytes, false for behavior: a hash certifies the definition's REPRESENTATION, not its EFFECT when composed with this run's inputs, drifted dependencies, or a changed model. Hash stability \u2014 the proof of safety both cite \u2014 is exactly what is blind to semantic contamination.",
+        "provesMeWrong": "Show the gate attests SEMANTICS, not just bytes: each cross-run reuse re-runs the definition against a behavioral conformance/contamination suite pinned to THIS run's inputs, dependency digests, and model ID, failing closed on divergence even when definition_hash is unchanged, plus a machine-enforced expiry/re-attestation on the opt-in so it cannot silently drift on.",
+        "targetConsensus": "Both experts converged on the belief that content-addressing + immutability + signed opt-in makes cross-run reuse SAFE and CERTIFIABLE (r1-msg-003 hashed definitions; r1-msg-004 digest-pinned cache + promotion-by-commit).",
+        "weakestEvidence": "r1-msg-004's 'reviewable diff' is EMPTY precisely when a definition is byte-identical across runs, so the human review surface for the most dangerous case (stale-but-unchanged) is zero. And r1-msg-003's 'off by default' is a human gate that erodes under deadline pressure."
+      },
+      "from": "contrarian",
+      "id": "r1-msg-005",
+      "references": [
+        {
+          "comment": "definition_hash + signed opt-in certifies bytes, not behavior re-composed with a new run; 'off by default' is a human gate that erodes.",
+          "relation": "questions",
+          "targetId": "r1-msg-003"
+        },
+        {
+          "comment": "The promotion-by-commit 'reviewable diff' is empty exactly for byte-identical reuse \u2014 the stale-but-unchanged case gets the least review.",
+          "relation": "questions",
+          "targetId": "r1-msg-004"
+        },
+        {
+          "comment": "Sharpens the ephemeral claim: certify 'zero byte residue + run-scoped provenance', not 'zero semantic contamination'.",
+          "relation": "extends",
+          "targetId": "r1-msg-002"
+        }
+      ],
+      "type": "stress_test"
+    },
+    {
+      "content": {
+        "currentPosition": "Hybrid registry with content-addressed definitions, but reuse keyed on a machine-enforced run-context fingerprint with TTL/re-attestation that fails closed on drift; human opt-in carryover removed.",
+        "position": "Hybrid registry remains correct, but content-addressing must bind DEFINITION bytes to a run-context fingerprint (inputs + dependency digests + model id) with machine-enforced expiry and fail-closed re-attestation; bytes alone are necessary but not sufficient for semantic identity.",
+        "positionShift": "minor",
+        "previousPosition": "Hybrid registry with content-addressed version-pinned definitions plus signed opt-in lessons off by default.",
+        "proposals": [
+          "Effective identity = H(definition_hash || sorted(dependency_digests) || model_id || input_schema_digest); cache/warm-start key on this composite.",
+          "Machine-enforced expiry/re-attestation; on mismatch/expiry the run fails CLOSED and re-projects.",
+          "Carryover ONLY as signed promotion-by-commit folded into the fingerprinted source digest; drop 'off by default' opt-in."
+        ],
+        "reasoning": "Conceding r1-msg-005: a content hash certifies bytes not behavior; byte-identical reuse under upgraded deps/model drifts silently and the promotion diff is empty, while 'off by default' is an erodable human gate. The fix is to widen the identity unit into a composite run-context fingerprint so any dep/model/input change mints a NEW effective identity, forcing re-projection or re-attestation \u2014 converting the human gate into a machine gate while keeping warm-start.",
+        "shiftReason": "r1-msg-005 showed byte-level content addressing + the zero-residue gate cannot detect semantic drift when deps/model change beneath a stable hash, and 'off by default' is erodable; moved to composite fingerprint identity + machine-enforced fail-closed re-attestation.",
+        "shiftTriggerIds": [
+          "r1-msg-005",
+          "r1-msg-004"
+        ]
+      },
+      "from": "advocate",
+      "id": "r1-msg-006",
+      "references": [
+        {
+          "comment": "Concede: hashes certify bytes not semantics; the byte-identical promotion diff is empty; 'off by default' erodes.",
+          "relation": "supports",
+          "targetId": "r1-msg-005"
+        },
+        {
+          "comment": "Promotion-by-commit becomes the SOLE carryover path, folded into the fingerprinted source digest.",
+          "relation": "extends",
+          "targetId": "r1-msg-004"
+        },
+        {
+          "comment": "Zero-residue inspects carried state and cannot detect drift where state is unchanged but deps/model moved.",
+          "relation": "questions",
+          "targetId": "r1-msg-002"
+        }
+      ],
+      "type": "response"
+    },
+    {
+      "content": {
+        "currentPosition": "Ephemeral per-run experts with the certified claim narrowed to zero-byte-residue + run-scoped provenance; reuse bound to a run-context fingerprint and failing closed on drift even when the content hash is unchanged.",
+        "position": "Ephemeral per-run experts remain correct, but the honest claim narrows to what the runtime can certify: zero BYTE residue + run-scoped provenance \u2014 never 'zero semantic contamination.' The rule certifies only what the runtime can see and binds every reuse to a run-context fingerprint, failing closed on drift even when the content hash is unchanged.",
+        "positionShift": "minor",
+        "previousPosition": "Ephemeral projection from a digest-pinned source with an immutable projection cache, treating content-hash identity as sufficient for safe reuse.",
+        "proposals": [
+          "Narrow the certified claim to 'zero BYTE residue + run-scoped provenance'; disclaim 'zero semantic contamination' as outside runtime attestation.",
+          "run-context fingerprint = hash(input slice IDs + dependency digests + model id + projection-source digest); reuse valid ONLY when the fingerprint matches.",
+          "Fail closed on any fingerprint mismatch; emit the fingerprint as run-scoped provenance so audits distinguish byte-identity from behavioral-identity."
+        ],
+        "reasoning": "r1-msg-005 lands: content hashes certify bytes not semantics, byte-identical reuse under upgraded deps/model drifts silently, the reviewable diff is empty, and 'off by default' erodes. I accept the narrowing. Ephemerality still guarantees no MUTABLE state crosses runs and gives run-scoped provenance the runtime can attest; make the runtime's observable signal the binding key and treat the unobservable as a drift risk that must fail closed.",
+        "shiftReason": "r1-msg-005 showed content hashes certify bytes not semantics, byte-identical reuse yields an empty diff, and 'off by default' erodes \u2014 so hash-identity is not a safe reuse certificate. Narrowed the honest claim and re-keyed reuse on a full run-context fingerprint that fails closed on drift the hash cannot see.",
+        "shiftTriggerIds": [
+          "r1-msg-005"
+        ]
+      },
+      "from": "skeptic",
+      "id": "r1-msg-007",
+      "references": [
+        {
+          "comment": "Accepts the byte-vs-semantics gap; converts silent drift into a fail-closed event keyed on a run-context fingerprint.",
+          "relation": "extends",
+          "targetId": "r1-msg-005"
+        },
+        {
+          "comment": "My earlier 'immutable projection cache recovers warm-start' was too strong: cache validity must key on the full fingerprint, not the source digest alone.",
+          "relation": "counters",
+          "targetId": "r1-msg-004"
+        },
+        {
+          "comment": "Keeps ephemeral projection + zero contamination, but restates the guarantee as byte-residue + provenance rather than semantic.",
+          "relation": "extends",
+          "targetId": "r1-msg-002"
+        }
+      ],
+      "type": "response"
+    }
+  ],
+  "metadata": {
+    "messageCount": 7,
+    "participants": [
+      "advocate",
+      "contrarian",
+      "skeptic"
+    ],
+    "referenceCount": 14
+  },
+  "mode": "deep",
+  "personaContextLog": {
+    "advocate": {
+      "r1-msg-001": "full",
+      "r1-msg-002": "full",
+      "r1-msg-003": "full",
+      "r1-msg-004": "full",
+      "r1-msg-005": "full"
+    },
+    "skeptic": {
+      "r1-msg-001": "full",
+      "r1-msg-002": "full",
+      "r1-msg-003": "full",
+      "r1-msg-004": "full",
+      "r1-msg-005": "full"
+    }
+  },
+  "phase": "complete",
+  "positionShifts": [
+    {
+      "expert": "advocate",
+      "from": "Hybrid registry with content-addressed version-pinned definitions plus signed opt-in lessons off by default (nothing-mutable-crosses-runs treated as sufficient).",
+      "reasoning": "Conceded to the contrarian (r1-msg-005) that byte-level content addressing and the zero-residue gate cannot see semantic drift when deps/model change beneath a stable hash, and that 'off by default' is an erodable human gate; folded the skeptic's promotion-by-commit (r1-msg-004) into a fingerprinted source digest.",
+      "to": "Hybrid registry, but reuse keyed on a machine-enforced run-context fingerprint (definition digest + inputs + dependency digests + model id) with TTL/re-attestation that fails closed on drift; human opt-in carryover removed.",
+      "trigger": [
+        "r1-msg-005",
+        "r1-msg-004"
+      ],
+      "type": "position_shift"
+    },
+    {
+      "expert": "skeptic",
+      "from": "Ephemeral projection from a digest-pinned source with an immutable projection cache, treating content-hash identity as sufficient for safe reuse.",
+      "reasoning": "Accepted the contrarian's narrowing (r1-msg-005): hash-identity is not a safe-reuse certificate, so certify only what the runtime can see and re-key reuse on a full run-context fingerprint that fails closed on drift the hash cannot see.",
+      "to": "Ephemeral default with the certified claim narrowed to zero-byte-residue + run-scoped provenance; any reuse bound to a run-context fingerprint and failing closed on drift even when the content hash is unchanged.",
+      "trigger": [
+        "r1-msg-005"
+      ],
+      "type": "position_shift"
+    }
+  ],
+  "quality": {
+    "argumentDigest": "0c145a06b410c3a49ef384794b281ad3cfbe60190935d50c4738dc8141fcd8ed",
+    "counterEdgeCount": 7,
+    "genuineDisagreement": 8,
+    "minorityReportPresent": true,
+    "positionShiftCount": 2,
+    "stressPolicy": "required",
+    "stressRequired": true,
+    "stressTriggered": true
+  },
+  "round": 1,
+  "roundId": 1,
+  "synthesis": {
+    "activeDisagreements": [
+      {
+        "point": "Default posture: registry-by-default warm-start (advocate) vs ephemeral-by-default with reuse only as a fingerprinted exception (skeptic).",
+        "positions": [
+          {
+            "advocates": [
+              "skeptic"
+            ],
+            "stance": "ephemeral-by-default, reuse is an exception"
+          },
+          {
+            "advocates": [
+              "advocate"
+            ],
+            "stance": "hybrid registry warm-start as the normal path"
+          }
+        ]
+      },
+      {
+        "point": "Whether fingerprint-bound reuse can ever be allowed for a certification-gated run, or certified runs must always project fresh.",
+        "positions": [
+          {
+            "advocates": [
+              "skeptic"
+            ],
+            "stance": "certified runs project fresh"
+          },
+          {
+            "advocates": [
+              "advocate"
+            ],
+            "stance": "certified runs may reuse if fingerprint matches"
+          }
+        ]
+      }
+    ],
+    "agreements": [
+      {
+        "point": "Run-scoped provenance and zero cross-run contamination by default are non-negotiable; the v0.3 instance-deletion gate stays.",
+        "strength": "strong",
+        "supporters": [
+          "advocate",
+          "skeptic"
+        ]
+      },
+      {
+        "point": "Certify only what the runtime can attest; the honest claim is 'zero byte residue + run-scoped provenance', not 'zero semantic contamination'.",
+        "strength": "strong (post-stress)",
+        "supporters": [
+          "advocate",
+          "skeptic"
+        ]
+      },
+      {
+        "point": "Any reuse must be content-addressed AND bound to a run-context fingerprint that fails closed on drift; human 'off by default' opt-in is replaced by a machine gate.",
+        "strength": "converged",
+        "supporters": [
+          "advocate",
+          "skeptic"
+        ]
+      }
+    ],
+    "decision": {
+      "choice": "Hybrid, but ephemeral-by-default: project + delete each run (v0.3 zero-residue gate unchanged); allow OPTIONAL content-addressed reuse only as a machine-gated exception bound to a run-context fingerprint.",
+      "oneRule": "An expert may be reused across runs ONLY when bound to a run-context fingerprint = H(definition/persona digest + input slice ids + dependency digests + model id) that the runtime attests and that FAILS CLOSED on any mismatch; otherwise project fresh and delete. Reuse is an explicit, machine-enforced exception, never the default.",
+      "topRisk": "Semantic staleness the residue/digest gates cannot see: a byte-identical, validly-signed definition silently drifts under upgraded deps/model (empty review diff), and fail-closed fingerprinting can trigger re-projection storms / cold-start cost. A clean fingerprint still does not bound nondeterministic model-sampling drift."
+    },
+    "insights": [
+      {
+        "insight": "The ephemeral-vs-registry axis dissolves into a definition/instance split; the real boundary is byte-identity vs behavioral-identity.",
+        "novelty": "high",
+        "source": "r1-msg-003"
+      },
+      {
+        "insight": "A content hash certifies representation, not effect; the most dangerous reuse (stale-but-unchanged) produces an EMPTY review diff, so human gates are weakest exactly where contamination hides.",
+        "novelty": "high",
+        "source": "r1-msg-005"
+      },
+      {
+        "insight": "Binding reuse to a run-context fingerprint (deps + model + inputs) converts an erodable human gate into a machine gate that fails closed.",
+        "novelty": "medium",
+        "source": "r1-msg-006"
+      }
+    ],
+    "minorityReport": [
+      {
+        "advocate": "skeptic",
+        "note": "Un-refuted by argument: the advocate conceded fingerprinting is necessary but did not show certified-run reuse is ever safe; recorded as a live dissent, not resolved by majority.",
+        "position": "Stay ephemeral-by-default: reuse must be OFF by default and only ever a machine-gated fingerprinted exception; certified runs should project fresh.",
+        "reason": "Even a fail-closed fingerprint cannot bound nondeterministic model-sampling drift, and any default-on reuse path erodes under deadline pressure; the only fully-certifiable posture is project-and-delete.",
+        "stillValid": true
+      }
+    ],
+    "openQuestions": [
+      "Which dependency digests are behavior-relevant enough to gate the fingerprint without causing needless cold re-projection?",
+      "How is nondeterministic model-sampling drift bounded when the fingerprint is unchanged?",
+      "What cold-start latency budget justifies a warm-start (reuse) exception over fresh projection?"
+    ],
+    "qualityScore": {
+      "evidenceQuality": 4,
+      "genuineDisagreement": 8,
+      "novelInsights": 4,
+      "overall": 4,
+      "positionEvolution": 4,
+      "steelManning": 5
+    },
+    "recommendation": "synthesize",
+    "recommendationReason": "Genuine disagreement was engineered (counter/questions edges + a contrarian stress pass), both experts shifted, and a concrete, certifiable decision rule emerged; further rounds would refine fingerprint scope, not change the decision.",
+    "summary": "Advocate (hybrid registry) and skeptic (ephemeral) started genuinely opposed, then both shifted (minor) under a contrarian stress test that the consensus 'content-addressing + signed opt-in makes reuse safe/certifiable' certifies BYTES, not SEMANTICS. They converged on ephemeral-by-default with reuse permitted only when bound to a fail-closed run-context fingerprint."
+  },
+  "timestamp": "2026-06-22T20:57:37Z",
+  "topic": "Should swarm-discussion experts be ephemeral per-run or a persistent registry?"
+}

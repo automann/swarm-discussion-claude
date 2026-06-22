@@ -1,0 +1,44 @@
+{
+  "complete": true,
+  "errors": [],
+  "missingAgentIds": [],
+  "missingPersonas": [],
+  "ok": true,
+  "receivedAgentIds": [
+    "swarm-stressbg1-skeptic"
+  ],
+  "requiredAgentIds": [
+    "swarm-stressbg1-skeptic"
+  ],
+  "results": [
+    {
+      "agentDescriptor": {
+        "agentType": "swarm-stressbg1-skeptic",
+        "invocationForm": "explicit_spawn",
+        "projectedName": "swarm-stressbg1-skeptic",
+        "projectedPath": ".claude/agents/swarm-stressbg1-skeptic.md",
+        "projectedSha256": "7b88f39364f04b9d41f983498986e91b025b4b243e1cd81daea3d68853f9c3ab",
+        "promptRef": "prompts/r001/stress/contrarian/prompt.txt"
+      },
+      "agentId": "swarm-stressbg1-skeptic",
+      "persona": "contrarian",
+      "result": {
+        "counterpoints": [
+          "A content hash attests representation, not effect: identical bytes can produce divergent/contaminating behavior under different run inputs, drifted transitive dependencies, or a swapped model \u2014 the gate is blind to all three.",
+          "Promotion-by-commit's reviewable diff degenerates to empty for byte-identical reuse, so review vanishes exactly for the silently-stale definition.",
+          "'Off by default' is a posture, not an invariant: convenience defaults creep (the demo flag never un-set).",
+          "Both treat certification SCOPE as the safety boundary, but neither showed the gate attests semantic non-contamination."
+        ],
+        "position": "The consensus that content-addressing + immutability + signed opt-in makes cross-run reuse SAFE and CERTIFIABLE is over-claimed: it certifies byte-identity and residue, not semantic non-contamination. A frozen definition re-executed in a drifted run is a behavioral unknown, not a certified-safe one.",
+        "provesMeWrong": "Show the gate attests semantics, not just bytes: each cross-run reuse re-runs the definition against a behavioral conformance/contamination suite pinned to THIS run's inputs, dependency digests, and model ID, failing closed on divergence even when definition_hash is unchanged \u2014 plus a machine-enforced expiry/re-attestation on the opt-in. Then byte-identity entails behavioral equivalence within the certified context and my distinction collapses.",
+        "questions": [
+          "What does the gate actually ATTEST \u2014 byte-residue/digest equality, or behavioral non-contamination? If only the former, why is reuse called 'safe' rather than 'byte-clean'?",
+          "When a pinned definition is byte-identical but run inputs/lockfile/model changed, what surface triggers re-review, given the commit diff is empty?",
+          "Is there a binding mechanism (expiry, mandatory re-signature per epoch) preventing 'off by default' from drifting on?"
+        ],
+        "reasoning": "Both r1-msg-003 and r1-msg-004 relocate safety into the artifact (definition_hash, digest-pinned source, immutable cache) and gate carryover behind signed opt-in. The load-bearing assumption is 'same bytes + valid signature => same safe behavior in the next run.' That holds for bytes, not behavior: a hash is computed over the definition's representation, not over its effect when composed with THIS run's inputs, dependency versions, or model. So hash stability \u2014 the very proof of safety both cite \u2014 is blind to the contamination they claim to eliminate. Weakest evidence: r1-msg-004's 'reviewable diff' is EMPTY exactly when a definition is byte-identical across runs, so the human review surface for the most dangerous case (stale-but-unchanged) is zero. Second crack: 'off by default' (r1-msg-003) is a human gate that erodes under deadline pressure. None of this kills ephemerality \u2014 it sharpens the honest claim to 'zero BYTE residue + run-scoped provenance,' not 'zero semantic contamination.'"
+      }
+    }
+  ],
+  "timedOut": false
+}

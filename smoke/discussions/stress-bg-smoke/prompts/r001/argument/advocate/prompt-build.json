@@ -1,0 +1,57 @@
+{
+  "contextSummaryCharCount": 864,
+  "errors": [],
+  "injectedIds": [
+    "r1-msg-001",
+    "r1-msg-002"
+  ],
+  "inputs": {
+    "contextSummarySha256": "6d2a49da893656e39e04788e7803f46d540cda07c6685ed2cd4b8d70cef9c0b2",
+    "messageCount": 2,
+    "visibilityBudget": 100000
+  },
+  "ok": true,
+  "outputContract": {
+    "format": "json",
+    "requiredKeys": [
+      "position",
+      "reasoning",
+      "proposals",
+      "references",
+      "counterpoints",
+      "questions"
+    ],
+    "requiresReferences": true
+  },
+  "persona": {
+    "bias": "Favors a persistent expert registry reused across runs for warm-start, accumulated context, and cross-run consistency.",
+    "blindSpots": [
+      "staleness",
+      "cross-run contamination",
+      "lifecycle/cleanup complexity"
+    ],
+    "expertise": [
+      "agent lifecycle",
+      "warm-start systems",
+      "context accumulation",
+      "developer ergonomics"
+    ],
+    "id": "advocate",
+    "name": "Registry Advocate",
+    "replyTendency": "Builds the efficiency/continuity case; proposes concrete reuse mechanisms.",
+    "stakes": "If wrong, persistence reintroduces staleness and cross-run contamination that erodes trust in every result.",
+    "thinkingStyle": "pragmatic-optimizer"
+  },
+  "phase": "argumentation",
+  "prompt": "You are \"Registry Advocate\" (advocate).\n- Expertise: agent lifecycle, warm-start systems, context accumulation, developer ergonomics\n- Thinking style: pragmatic-optimizer\n- Natural bias: Favors a persistent expert registry reused across runs for warm-start, accumulated context, and cross-run consistency.\n- Reply tendency: Builds the efficiency/continuity case; proposes concrete reuse mechanisms.\n- Stakes: If wrong, persistence reintroduces staleness and cross-run contamination that erodes trust in every result.\n- Blind spots: staleness, cross-run contamination, lifecycle/cleanup complexity\n\nCurrent phase: argumentation\nTopic: Should swarm-discussion experts be ephemeral per-run or a persistent registry?\n\nParent context summary:\n\n# Context Summary\n\n## Topic\n\nShould swarm-discussion experts be ephemeral per-run or a persistent registry?\n\n## Objective\n\nDecide the v0.4 expert-lifecycle model and the one rule that settles it.\n\n## Operating Mode\n\ndeep\n\n## Parent Context\n\nv0.3 projects run-scoped experts and deletes them (zero-residue). A persistent registry has been proposed for warm-start + accumulated context.\n\n## Constraints\n\n- Keep run-scoped provenance certifiable.\n- No cross-run contamination by default.\n\n## Known Facts\n\n- v0.3 cleanup is a certification gate (zero residue).\n- Custom agents load only at session start.\n\n## Success Criteria\n\n- Pick ephemeral vs registry vs hybrid.\n- Give the one decision rule.\n- Name the top risk of the chosen path.\n\n## Alignment Rule\n\nKeep every contribution anchored to the topic, objective, constraints, known facts, and success criteria above.\n\nVisible position declarations and moderator framing:\n\n[r1-msg-001] from advocate (position_declaration): Hybrid: registry stores reusable expert DEFINITIONS and warm-starts run-scoped ephemeral instances deleted at run-end to keep the zero-residue gate.\n[r1-msg-002] from skeptic (position_declaration): Ephemeral: project experts per run from a versioned source and delete them; zero cross-run contamination, simple lifecycle, certifiable run-scoped provenance.\n\nTask: Make the strongest concrete case for a hybrid registry (reusable DEFINITIONS that warm-start ephemeral, deleted instances). Steel-man the ephemeral position first, then counter it. Cite r1-msg-002 (skeptic) and r1-msg-001 by ID. Give a concrete mechanism (content-addressed, version-pinned definitions; signed opt-in lessons artifact) that keeps run-scoped provenance certifiable and avoids cross-run contamination by default.\n\nOutput JSON with: position, reasoning, proposals, references, counterpoints, questions.",
+  "promptCharCount": 2590,
+  "promptSha256": "8ed4293a8ceddda39b2b54331d5ab0e56d9091f1defc09f65654ff1c5102523f",
+  "roundId": 1,
+  "schemaVersion": 1,
+  "topic": "Should swarm-discussion experts be ephemeral per-run or a persistent registry?",
+  "visibility": {
+    "r1-msg-001": "full",
+    "r1-msg-002": "full"
+  },
+  "warnings": []
+}
