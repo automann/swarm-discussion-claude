@@ -119,6 +119,13 @@ projected discussion certifies `certify_adapter.py --require-projection` (5/5).
 
 ## Release
 
+- **v0.4.0** (2026-06-24) — `mode` × `stressPolicy` debate-depth orchestration (ADR
+  0002): the coordinator runs the bounded loop (position → argument → stress-check →
+  contrarian stress → response → synthesis); the runtime owns and certifies the
+  engineered-disagreement contract. Vendored runtime SHA **`c843931`** (60 files).
+  Certified against a real `claude --bg` coordinator-driven `deep`+`required`
+  discussion (`smoke/discussions/stress-bg-smoke`) with
+  `certify_adapter.py --require-projection --require-stress` (5/5) + zero-residue.
 - **v0.3.0** (2026-06-21) — dynamic custom-agent topology: the parent projects
   per-topic experts, a `swarm-coordinator` background session runs the loop and
   spawns them, with runtime-owned projection provenance. Vendored runtime SHA
