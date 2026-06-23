@@ -48,7 +48,8 @@ Build a compact brief JSON (do not dump the conversation): `topic`, `objective`,
 (`lightweight|standard|deep` — map the request to a real tier by stakes; never free text),
 `stressPolicy` (`auto|required|off`; default from mode — lightweight→off, standard→auto,
 deep→required; use `required` when the user wants a rigorous/adversarial decision),
-`parentContext`, `constraints`, `knownFacts`, `successCriteria`. Pick a
+`parentContext`, `constraints`, `knownFacts`, `successCriteria`. Honor explicit `--mode <tier>` / `--stressPolicy <policy>` flags
+from the invocation (validated against the enums) over inference. Pick a
 `discussionId` slug, a collision-safe `runId` (e.g. `discussionId` + a short timestamp/random suffix), and
 set `discussionDir="$(pwd)/.swarm/discussions/<discussionId>"`.
 
