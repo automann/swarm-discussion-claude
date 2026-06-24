@@ -155,6 +155,10 @@ projected discussion certifies `certify_adapter.py --require-projection` (5/5).
 
 ## Release
 
+- **v0.4.1** (2026-06-24) — honor explicit `--mode` / `--stressPolicy` invocation flags
+  (over inference; live-verified) and document the combined `mode` × `stressPolicy` usage
+  guide + the `stressPolicy` Modes table. Docs + skill polish over v0.4.0; same vendored
+  runtime `c843931`.
 - **v0.4.0** (2026-06-24) — `mode` × `stressPolicy` debate-depth orchestration (ADR
   0002): the coordinator runs the bounded loop (position → argument → stress-check →
   contrarian stress → response → synthesis); the runtime owns and certifies the
