@@ -210,9 +210,9 @@ python3 <runtime-repo>/conformance/certify_adapter.py --require-projection \
   --runtime  <this-repo>/vendor/swarm-runtime/runtime/swarm_rt.py
 ```
 
-For v0.3.0 the release gate is `--require-projection` (the discussion must declare
-projected custom agents) plus a zero-residue check that no run-scoped
-`.claude/agents/swarm-<runId>-*` file survived.
+The v0.4.x release gate is `--require-projection --require-stress` (the discussion must
+declare projected custom agents AND satisfy the declared `stressPolicy`) plus a
+zero-residue check that no run-scoped `.claude/agents/swarm-<runId>-*` file survived.
 
 The bundled fixture proves the runtime; certification proves the adapter.
 Re-certify on every re-vendor and before every release.
